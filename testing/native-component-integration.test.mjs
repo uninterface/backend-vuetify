@@ -42,7 +42,7 @@ test('the reduced-motion patch is scoped to Uninterface buttons', () => {
 test('native button variants and indicators follow the declared treatments', () =>
   withBuiltDomFixture(
     build,
-    new URL('../../../tests/fixtures/buttons.ts', import.meta.url),
+    new URL('./fixtures/buttons.ts', import.meta.url),
     async ({ mountButton }) => {
       const treatment = (value) =>
         `v-btn--variant-${{ filled: 'flat', outline: 'outlined', soft: 'tonal', text: 'text', icon: 'text' }[value]}`
@@ -64,7 +64,7 @@ test('native button variants and indicators follow the declared treatments', () 
 test('full height toggles the native fixed-header presentation', () =>
   withBuiltDomFixture(
     build,
-    new URL('../../../tests/fixtures/list-browser.ts', import.meta.url),
+    new URL('./fixtures/collection-scrolling.ts', import.meta.url),
     async ({ mountCollectionScrolling }) => {
       const example = await mountCollectionScrolling()
       try {
@@ -90,7 +90,7 @@ test('full height toggles the native fixed-header presentation', () =>
 test('layout density uses the native spacing at each strategy scope', () =>
   withBuiltDomFixture(
     build,
-    new URL('../../../tests/fixtures/layout-density.ts', import.meta.url),
+    new URL('./fixtures/layout-density.ts', import.meta.url),
     async ({ mountDensity }) => {
       const expected = ['ga-2', 'ga-4', 'ga-6']
       const example = await mountDensity()
@@ -145,7 +145,7 @@ test('layout density uses the native spacing at each strategy scope', () =>
 test('collection footer slots follow the native DOM order', () =>
   withBuiltDomFixture(
     build,
-    new URL('../../../tests/fixtures/collection-footer.ts', import.meta.url),
+    new URL('./fixtures/collection-footer.ts', import.meta.url),
     async ({ mountCollectionFooter }) => {
       const example = await mountCollectionFooter()
       try {
@@ -165,7 +165,7 @@ test('collection footer slots follow the native DOM order', () =>
 test('temporal pickers use their native parts and date format', () =>
   withBuiltDomFixture(
     build,
-    new URL('../../../tests/fixtures/temporal-pickers.ts', import.meta.url),
+    new URL('./fixtures/temporal-pickers.ts', import.meta.url),
     async ({ mount }, window) => {
       const demo = await mount()
       const { document } = window
@@ -197,7 +197,7 @@ test('temporal pickers use their native parts and date format', () =>
 test('table cell alignment uses physical direction after RTL changes', () =>
   withBuiltDomFixture(
     build,
-    new URL('../../../tests/fixtures/table-sizing.ts', import.meta.url),
+    new URL('./fixtures/table-sizing.ts', import.meta.url),
     async ({ mountSizing }, window) => {
       Object.defineProperty(window.HTMLElement.prototype, 'clientWidth', {
         get: () => 800,

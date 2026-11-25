@@ -22,7 +22,22 @@ The adapter locates actual rendered select/checkbox parts. It must not force cli
 
 ## Verify application behavior
 
-The backend repository includes native conformance tests and their fixtures. The application Playwright fixture above uses your own app and test runner.
+The application Playwright fixture above uses your own app and test runner.
+
+## Run the backend's native tests
+
+From this checkout with Node.js 24:
+
+```sh
+npm ci
+npm run test:dom
+npx playwright install chromium
+npm run test:browser
+```
+
+The native suites build package-local fixtures through the Uninterface Testing
+harness. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to use an installed Chromium
+executable. Browser results are written to `var/playwright/`.
 
 Verify shared keyboard, focus, naming, validation feedback, selection retention and layout behavior as well as native presentation. Capability declarations and simulated DOM results do not replace browser or manual accessibility checks. Applications select their own conformance policy; the adapter does not import another project's contrast exceptions.
 

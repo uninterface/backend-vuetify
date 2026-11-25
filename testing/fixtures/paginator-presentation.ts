@@ -28,6 +28,7 @@ export async function mountNumberedPaginator() {
   })
   app.config.errorHandler = (error) => errors.push(String(error))
   await app.ui.ready
+  await app.ui.i18n.loadNamespace('uninterface.collections')
   const host = document.body.appendChild(document.createElement('div'))
   function dispose() {
     app.unmount()

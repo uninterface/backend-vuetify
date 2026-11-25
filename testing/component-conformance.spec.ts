@@ -5,11 +5,16 @@ import {
   expectContainedFocusPaint,
 } from '@uninterface/testing/playwright'
 import { build } from './fixture-build.mjs'
+import type { mountMultiSelect } from './fixtures/multi-select'
 import { uiTestAdapter } from './index'
 
 const openFixture = createBrowserFixture(
   build,
   new URL('./fixtures/native-conformance.ts', import.meta.url),
+)
+const openMultiSelect = createBrowserFixture(
+  build,
+  new URL('./fixtures/multi-select.ts', import.meta.url),
 )
 const uiTest = (page: Page) => createUiTest(page, uiTestAdapter)
 
@@ -55,7 +60,14 @@ test('Vuetify multiselect keeps long native chip labels visible', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 800 })
-  await page.goto('/tests/fixtures/multi-select.html')
+  await openMultiSelect(page)
+  await page.evaluate(async () => {
+    await (
+      window as unknown as {
+        Fixture: { mountMultiSelect: typeof mountMultiSelect }
+      }
+    ).Fixture.mountMultiSelect()
+  })
   expect(await page.evaluate(() => document.compatMode)).toBe('CSS1Compat')
   await page.getByRole('button', { name: 'Load', exact: true }).click()
   await page.getByRole('button', { name: 'Resolve', exact: true }).click()

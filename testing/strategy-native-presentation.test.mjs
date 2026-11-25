@@ -1,10 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { createUiDomTest } from '@uninterface/testing/dom'
-import {
-  withStrategies,
-  settleUntil,
-} from '../../../tests/strategy-dom-fixture.mjs'
+import { withStrategies, settleUntil } from './strategy-fixture.mjs'
 import { build } from './fixture-build.mjs'
 import { uiDomTestAdapter } from './dom.mjs'
 test('strategies retain native sizing, labels, annotations and feedback', () =>

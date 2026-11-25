@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, nextTick } from 'vue'
 import {
   UiField,
   UiUploadRegion,
@@ -30,8 +30,10 @@ export async function mountUpload() {
   const errors: string[] = []
   app.config.errorHandler = (error) => errors.push(String(error))
   await app.ui.ready
+  await app.ui.i18n.loadNamespace('uninterface.files')
   const host = document.body.appendChild(document.createElement('div'))
   app.mount(host)
+  await nextTick()
   return {
     root: host.querySelector<HTMLElement>('[data-upload-fixture]'),
     errors,

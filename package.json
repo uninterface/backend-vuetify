@@ -129,7 +129,9 @@
     "url": "git+https://github.com/uninterface/backend-vuetify.git"
   },
   "scripts": {
-    "build": "node scripts/build-package.mjs"
+    "build": "node scripts/build-package.mjs",
+    "test:dom": "node --test testing/*.test.mjs",
+    "test:browser": "playwright test --config testing/playwright.config.ts"
   },
   "peerDependencies": {
     "@uninterface/testing": "~0.0.2",

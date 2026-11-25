@@ -2,28 +2,44 @@ import { test, expect } from '@playwright/test'
 import { createUiTest } from '@uninterface/testing/playwright'
 import type { Locator, Page } from '@playwright/test'
 import { uiTestAdapter } from './index'
-import type { mount as mountProgress } from '../../../tests/fixtures/progress-bar'
-import type { mount as mountSurfaces } from '../../../tests/fixtures/disabled-surfaces'
+import type { mount as mountProgress } from './fixtures/progress-bar'
+import type { mount as mountSurfaces } from './fixtures/disabled-surfaces'
 import { build } from './fixture-build.mjs'
-import {
-  openPresentationFixture,
-  measureSurfacePaint,
-} from '../../../tests/presentation-browser-fixture.mjs'
+import { createBrowserFixture } from '@uninterface/testing/fixture-build'
+import type { send } from './fixtures/feedback-actions'
+
+const openProgress = createBrowserFixture(
+  build,
+  new URL('./fixtures/progress-bar.ts', import.meta.url),
+)
+const openSurfaces = createBrowserFixture(
+  build,
+  new URL('./fixtures/disabled-surfaces.ts', import.meta.url),
+)
+const openFeedback = createBrowserFixture(
+  build,
+  new URL('./fixtures/feedback-actions.ts', import.meta.url),
+)
+const openSuggestions = createBrowserFixture(
+  build,
+  new URL('./fixtures/suggestions.ts', import.meta.url),
+)
 
 type ProgressPage = Window & {
+  Fixture: { mount: typeof mountProgress }
   fixture: Awaited<ReturnType<typeof mountProgress>>
 }
 type SurfacesPage = Window & {
+  Fixture: { mount: typeof mountSurfaces }
   fixture: Awaited<ReturnType<typeof mountSurfaces>>
 }
 
 test('progress colors use the native semantic palette', async ({ page }) => {
-  await openPresentationFixture(
-    page,
-    build,
-    new URL('../../../tests/fixtures/progress-bar.ts', import.meta.url),
-    'ProgressBars',
-  )
+  await openProgress(page)
+  await page.evaluate(async () => {
+    const surface = window as unknown as ProgressPage
+    surface.fixture = await surface.Fixture.mount()
+  })
   const ui = createUiTest(page, uiTestAdapter)
   const bar = page.locator('#standalone')
   for (const color of [
@@ -83,12 +99,11 @@ test('upload and input frame use coordinated native focus paint', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await openPresentationFixture(
-    page,
-    build,
-    new URL('../../../tests/fixtures/disabled-surfaces.ts', import.meta.url),
-    'Surfaces',
-  )
+  await openSurfaces(page)
+  await page.evaluate(async () => {
+    const surface = window as unknown as SurfacesPage
+    surface.fixture = await surface.Fixture.mount()
+  })
   const ui = createUiTest(page, uiTestAdapter)
   const frameRoot = page.locator('[data-surface=frame] [data-ui-input-frame]')
   const uploadRoot = page.locator(
@@ -117,21 +132,12 @@ test('upload and input frame use coordinated native focus paint', async ({
 })
 
 test('feedback footer uses its native action direction', async ({ page }) => {
-  await page.goto('/tests/fixtures/floating-feedback.html')
+  await openFeedback(page)
   for (const kind of ['toast', 'notification'] as const) {
-    await page.evaluate(async (kind) => {
-      window.floating.dispose()
-      window.floating = await window.mountFloatingFeedback(
-        { duration: null },
-        kind,
-      )
-      window.floating.route.send({
-        message: 'Action check',
-        actions: [
-          { key: 'first', label: 'First' },
-          { key: 'next', label: 'Next' },
-        ],
-      })
+    await page.evaluate((kind) => {
+      return (
+        window as unknown as { Fixture: { send: typeof send } }
+      ).Fixture.send(kind)
     }, kind)
     await expect(page.locator('[data-ui-footer-actions]')).toHaveCSS(
       'flex-direction',
@@ -146,7 +152,7 @@ test('autocomplete uses the native menu surface in light and dark mode', async (
   const backgrounds = []
   for (const colorScheme of ['light', 'dark'] as const) {
     await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' })
-    await page.goto('/#/features/examples/search')
+    await openSuggestions(page)
     const input = page.getByRole('combobox', {
       name: 'Suggested name',
       exact: true,
@@ -168,3 +174,23 @@ test('autocomplete uses the native menu surface in light and dark mode', async (
   }
   expect(new Set(backgrounds).size).toBe(2)
 })
+
+/** Report actual surface paint after the fixture's normal focus transition. */
+function measureSurfacePaint(surface: Locator) {
+  return surface.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return {
+      tag: element.tagName,
+      classes: element.className,
+      backgroundColor: style.backgroundColor,
+      color: style.color,
+      borderColor: style.borderColor,
+      opacity: style.opacity,
+      outlineColor: style.outlineColor,
+      outlineStyle: style.outlineStyle,
+      outlineWidth: style.outlineWidth,
+      outlineOffset: style.outlineOffset,
+      boxShadow: style.boxShadow,
+    }
+  })
+}

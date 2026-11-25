@@ -64,7 +64,7 @@ Upload regions declare minimum inline/block allocations and do not scroll intern
 
 Fill uses the compact upload-icon size so the chooser fits the minimum height as well as the compact preset. Delivery failures use the same single error line and recovery-action arrangement as acquisition failures, avoiding an extra filename row.
 
-`tests/upload-region-sizing.spec.ts` supplies shared geometry checks for compact/regular/large/fill, minimum and mobile widths, three control sizes, known/unknown or omitted progress, long errors/names, delivery recovery, file Tile and portrait/landscape previews, and omitted preview. Checks include visible descendants and action hit targets, not just the clipped outer surface. Run these checks in a browser to verify geometry and hit targets.
+In a browser, check compact, regular, large and fill allocations at the minimum and at narrow widths. Repeat at each supported control size with known, unknown and hidden progress, long file names and errors, delivery retry, portrait and landscape previews, and no preview. Verify that visible descendants stay within the allocated region and that actions remain reachable.
 
 
 ### Read-only preview field

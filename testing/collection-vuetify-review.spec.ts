@@ -66,7 +66,7 @@ for (const scenario of [
   { direction: 'ltr', theme: 'light' },
   { direction: 'rtl', theme: 'dark' },
 ]) {
-  test(`Vuetify KI-050 header alignment and height ${scenario.direction}/${scenario.theme}`, async ({
+  test(`Vuetify header alignment and height ${scenario.direction}/${scenario.theme}`, async ({
     page,
   }, info) => {
     await page.setViewportSize({ width: 1600, height: 1100 })
@@ -179,7 +179,7 @@ for (const scenario of [
       .screenshot({ path: info.outputPath('narrow-reset.png') })
   })
 
-  test(`Vuetify KI-051 visible drop boundaries ${scenario.direction}/${scenario.theme}`, async ({
+  test(`Vuetify visible drop boundaries ${scenario.direction}/${scenario.theme}`, async ({
     page,
   }, info) => {
     await page.setViewportSize({ width: 1600, height: 1100 })
