@@ -1,0 +1,75 @@
+/* Native HTML content baseline. Imported by style.css; no wrapper/class opt-in.
+   Higher-specificity component styles and toolkit component/utility layers retain ownership. */
+@layer vuetify-core.base {
+  /* Keep browser heading ranks; normalize prose rhythm using logical spacing. */
+  :where(h1, h2, h3, h4, h5, h6) {
+    margin-block: 0 0.5em;
+  }
+  :where(p, ul, ol, pre) {
+    margin-block: 0 1em;
+  }
+  :where(ul, ol) {
+    padding-inline-start: 1.5em;
+  }
+  :where(li > ul, li > ol) {
+    margin-block: 0;
+  }
+  :where(a[href]) {
+    color: rgb(var(--v-theme-primary));
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+  a[href]:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: var(--vuetify-contained-focus-offset, 2px);
+  }
+  :where(kbd) {
+    padding: 0.125em 0.25em;
+    border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+    border-radius: 0.25em;
+  }
+  :where(mark) {
+    color: rgb(var(--v-theme-on-surface-variant));
+    background: rgb(var(--v-theme-surface-variant));
+    padding-inline: 0.125em;
+  }
+  :where(hr) {
+    margin-block: 1em;
+    border: 0;
+    border-block-start: 1px solid
+      rgba(var(--v-border-color), var(--v-border-opacity));
+  }
+  /* Preserve whitespace while wrapping long source lines; no hidden or
+   keyboard-inaccessible horizontal scrollport is introduced by a bare pre. */
+  :where(pre) {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-inline-size: 100%;
+  }
+  :where(code, kbd, samp) {
+    overflow-wrap: anywhere;
+  }
+  :where(p, li, h1, h2, h3, h4, h5, h6, a[href]) {
+    overflow-wrap: anywhere;
+  }
+  @media (forced-colors: active) {
+    :where(mark) {
+      background: Mark;
+      color: MarkText;
+    }
+    :where(a[href]):focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}
+
+@layer vuetify-core.base {
+  /* A sole native prose block allocated as one peer uses the layout's gap.
+   Nested prose and explicit content insets keep their own spacing. */
+  .vuetify-layout-item:where(:not([data-layout-region]))
+    > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, pre, hr):where(
+      :only-child
+    ):where(:not([class])) {
+    margin-block: 0;
+  }
+}

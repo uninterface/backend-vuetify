@@ -1,0 +1,152 @@
+{
+  "name": "@uninterface/backend-vuetify",
+  "version": "4.2.0-alpha1",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "Vuetify presentation backend for Uninterface.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./style.css": "./src/style.css",
+    "./capabilities.json": "./capabilities.json",
+    "./*.vue": "./src/*.vue",
+    "./integration": "./src/integration.ts",
+    "./layout": "./src/layout.ts",
+    "./testing": "./testing/index.ts",
+    "./testing/dom": "./testing/dom.mjs",
+    "./focus": "./src/focus.ts",
+    "./font.css": "./src/font.css",
+    "./font-bundled.css": "./src/font-bundled.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "dependencies": {
+    "@fontsource-variable/noto-sans-sc": "5.3.1",
+    "@fontsource-variable/noto-sans-tc": "5.3.1",
+    "@fontsource-variable/roboto": "5.3.0",
+    "vuetify": "4.2.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@uninterface/fonts": "0.0.2",
+    "@uninterface/testing": "0.0.2",
+    "@uninterface/uninterface": "0.0.3",
+    "@vitejs/plugin-vue": "6.0.10",
+    "jsdom": "27.4.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vue": "3.5.43",
+    "vue-tsc": "3.1.1"
+  },
+  "uninterface": {
+    "testing": {
+      "typography": "testing/typography.json",
+      "componentConformance": {
+        "collectionFooterSharesAt435": false,
+        "retainsEditorsOnColumnReorder": true,
+        "checkableModes": [
+          "flushed"
+        ],
+        "fieldLabels": {
+          "placements": [
+            "floating"
+          ],
+          "resolves": {
+            "beside": "show",
+            "beside-near": "show",
+            "beside-far": "show"
+          }
+        },
+        "fieldSizing": {
+          "small": {
+            "fontSize": "same"
+          },
+          "extraLarge": {
+            "fontSize": "same",
+            "height": "same"
+          }
+        },
+        "fieldHelp": "replace-help",
+        "loadingIndicator": {
+          "selector": ".v-btn__loader .v-progress-circular",
+          "motion": "stops"
+        },
+        "navigation": "disclosure",
+        "segmentedLabelBeside": false
+      },
+      "dom": [
+        "testing/native-component-integration.test.mjs",
+        "testing/strategy-native-presentation.test.mjs",
+        "testing/strategy-native-defaults.test.mjs",
+        "testing/stacking-select.test.mjs",
+        "testing/native-locale.test.mjs",
+        "testing/frame-labels.test.mjs",
+        "testing/segmented-field.test.mjs",
+        "testing/compact-checkboxes.test.mjs",
+        "testing/navigation-presentation.test.mjs",
+        "testing/temporal-range.test.mjs",
+        "testing/temporal-presentation.test.mjs",
+        "testing/menu-dom.test.mjs",
+        "testing/select-target-dom.test.mjs",
+        "testing/modal-presentation.test.mjs",
+        "testing/collapsible-presentation.test.mjs",
+        "testing/upload-presentation.test.mjs",
+        "testing/modal-select-escape.test.mjs",
+        "testing/temporal-escape.test.mjs",
+        "testing/field-tooltip-focus.test.mjs",
+        "testing/paginator-presentation.test.mjs",
+        "testing/feedback-presentation.test.mjs",
+        "testing/command-columns.test.mjs",
+        "testing/neutral-button.test.mjs"
+      ],
+      "reference": {
+        "page": "testing/native-reference.html",
+        "browser": "testing/native-reference.spec.ts"
+      },
+      "browser": [
+        "testing/native-paint.spec.ts",
+        "testing/collection-vuetify-review.spec.ts",
+        "testing/navigation-presentation.spec.ts",
+        "testing/component-conformance.spec.ts",
+        "testing/stacking-popups.spec.ts",
+        "testing/compact-checkboxes.spec.ts",
+        "testing/segmented-field.spec.ts",
+        "testing/temporal-fields.spec.ts",
+        "testing/paginator-footer.spec.ts",
+        "testing/command-columns.spec.ts",
+        "testing/table-header-accessibility.spec.ts"
+      ],
+      "paginatorGeometry": {
+        "sizeSurface": ".vuetify-paginator-size .v-field",
+        "jumperSurface": ".vuetify-paginator-jumper .v-field",
+        "jumperRoot": ".vuetify-paginator-jumper"
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uninterface/backend-vuetify.git"
+  },
+  "scripts": {
+    "build": "node scripts/build-package.mjs"
+  },
+  "peerDependencies": {
+    "@uninterface/testing": "~0.0.2",
+    "@uninterface/uninterface": "~0.0.3",
+    "vue": "^3.5.43"
+  },
+  "peerDependenciesMeta": {
+    "@uninterface/testing": {
+      "optional": true
+    }
+  },
+  "overrides": {
+    "tough-cookie": {
+      "tldts": "7.4.18"
+    },
+    "tldts": {
+      "tldts-core": "7.4.18"
+    }
+  }
+}

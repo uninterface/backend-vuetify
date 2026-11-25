@@ -1,0 +1,3 @@
+Material Design Icons by Pictogrammers
+https://github.com/Templarian/MaterialDesign
+Licensed under Apache-2.0. SVGs included as Vue templates; artwork unchanged.

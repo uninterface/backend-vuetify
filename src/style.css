@@ -1,0 +1,2850 @@
+/* Declare the whole native order before imports. Import bundling can hoist
+   standalone layer statements ahead of Vuetify's core layer block. */
+@layer vuetify-core, vuetify-components, vuetify-overrides, vuetify-utilities, vuetify-final;
+
+@import 'vuetify/styles';
+
+@import './native-content.css';
+
+body {
+  color: rgb(var(--v-theme-on-background));
+  background: rgb(var(--v-theme-background));
+}
+
+/* Allocation and scroll ownership adapt Uninterface's layout contract. */
+.vuetify-app {
+  box-sizing: border-box;
+  display: flow-root;
+  width: 100%;
+  min-width: 0;
+  color: rgb(var(--v-theme-on-background));
+  background: rgb(var(--v-theme-background));
+}
+.vuetify-app-viewport {
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* Keep the persistent announcement local even inside an unpositioned scrollport. */
+.vuetify-button-host {
+  position: relative;
+  display: inline-flex;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  vertical-align: baseline;
+}
+.vuetify-button-host > button {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+/* Direct table actions align within the cell line without changing the host's
+   exported caption baseline in authored baseline layouts. */
+.vuetify-table-cell-content > .vuetify-button-host {
+  vertical-align: middle;
+}
+.vuetify-button-status,
+.vuetify-button-label-hidden {
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}
+.vuetify-content {
+  /* Bare text needs the same emergency wrapping as ordinary prose. */
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+  display: flow-root;
+  width: 100%;
+  min-width: 0;
+  padding: 16px;
+  min-height: 0;
+}
+.vuetify-content[data-inset='none'] {
+  padding: 0;
+}
+.vuetify-navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+.vuetify-navbar-brand,
+.vuetify-navbar-links,
+.vuetify-navbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.vuetify-navbar-links {
+  flex: 1 1 auto;
+}
+.vuetify-navbar-actions {
+  margin-inline-start: auto;
+}
+.vuetify-form {
+  display: grid;
+  min-width: 0;
+}
+.vuetify-field {
+  min-width: 0;
+}
+.vuetify-required::after,
+.vuetify-required-checkbox .v-label::after,
+.vuetify-required-control .v-field-label::after {
+  content: ' *' / '';
+  color: rgb(var(--v-theme-error));
+  white-space: pre;
+}
+.vuetify-layout {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  align-content: start;
+  justify-content: start;
+}
+.vuetify-layout-item {
+  min-width: 0;
+  min-height: 0;
+}
+/* A direct checkbox field is one compact layout item. VCheckbox otherwise
+   reserves VInput's taller row even with no details. Keep its native selection
+   target size, label wrapping and feedback; remove only the surplus row space.
+   The immediate allocation/field path prevents leakage into nested layouts,
+   frames and opaque content. Shared grid allocations use the same local rule. */
+.vuetify-compact-layout
+  > *
+  > .vuetify-field
+  > .vuetify-field-editor
+  > .vuetify-checkbox-host
+  > .v-checkbox
+  > .v-input__control
+  > .v-selection-control {
+  min-height: var(--v-selection-control-size);
+}
+.vuetify-region-host {
+  box-sizing: border-box;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  gap: 0;
+}
+.vuetify-region-scroll {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 0;
+}
+.vuetify-region-retained,
+.vuetify-region-item {
+  min-width: 0;
+}
+.vuetify-layout:focus-visible,
+.vuetify-region-host:focus-visible,
+.vuetify-region-scroll:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+.vuetify-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.vuetify-entry-list {
+  list-style: none;
+  margin: 0;
+}
+.vuetify-entry-list:not(.v-list) {
+  padding: 0;
+  min-width: 0;
+}
+.vuetify-entry-item {
+  max-width: 100%;
+  text-align: start;
+}
+.vuetify-entry-item.v-list-item {
+  width: 100%;
+}
+.vuetify-entry-item-rail > .v-list-item__content {
+  /* Native drawer rails remove the content minimum too. This rail is a list
+     with floating descendants, so apply that adaptation to its root items. */
+  min-width: 0;
+}
+.vuetify-entry-item-rail > .v-list-item__prepend > .v-list-item__spacer {
+  display: none;
+}
+.vuetify-entry-copy {
+  min-width: 0;
+}
+.vuetify-entry-icon {
+  display: inline-flex;
+  width: 1em;
+  height: 1em;
+}
+.vuetify-entry-status {
+  padding: 0.5rem 1rem;
+}
+.vuetify-entry-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.vuetify-entry-navigation .vuetify-entry-list {
+  display: block;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vuetify-button.v-btn--loading .v-progress-circular__overlay,
+  .vuetify-button.v-btn--loading .v-progress-circular__underlay,
+  .vuetify-button.v-btn--loading .v-progress-circular,
+  .vuetify-button.v-btn--loading .v-progress-circular > svg {
+    animation: none !important;
+  }
+  .vuetify-button.v-btn--loading .v-progress-circular__overlay {
+    stroke-dasharray: 80, 200;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+/* Field presentation strategies, with stacked flow on narrow screens. */
+
+.vuetify-field-editor {
+  min-width: 0;
+}
+.vuetify-field[data-ui-checkable] > .v-label {
+  max-inline-size: 100%;
+  white-space: normal;
+  text-align: start;
+  justify-content: start;
+}
+.vuetify-field[data-ui-checkable] > .v-label > span {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.vuetify-required.vuetify-required-prefix::after,
+.vuetify-required-checkbox.vuetify-required-prefix .v-label::after,
+.vuetify-required-control.vuetify-required-prefix .v-field-label::after {
+  content: none;
+}
+.vuetify-required.vuetify-required-prefix::before,
+.vuetify-required-checkbox.vuetify-required-prefix .v-label::before,
+.vuetify-required-control.vuetify-required-prefix .v-field-label::before {
+  content: '* ' / '';
+  color: rgb(var(--v-theme-error));
+  white-space: pre;
+}
+
+/* Accessible error text remains available independently of tooltip portals. */
+.vuetify-tooltip-description {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Portable card treatments adapt native theme values; no descendant control styling. */
+.vuetify-card[data-card-top-end] {
+  position: relative;
+}
+.vuetify-card-top-end {
+  position: absolute;
+  inset-block-start: calc(var(--vuetify-card-padding) / 2);
+  inset-inline-end: calc(var(--vuetify-card-padding) / 2);
+  max-inline-size: calc(100% - var(--vuetify-card-padding));
+}
+.vuetify-card {
+  font-size: 1rem;
+  --vuetify-card-separator-style: solid;
+  --vuetify-card-padding: 16px;
+  --vuetify-card-title-size: 1.125rem;
+  --vuetify-card-base: rgb(var(--v-theme-surface));
+  --vuetify-card-tint: color-mix(
+    in srgb,
+    var(--vuetify-card-accent) 10%,
+    var(--vuetify-card-base)
+  );
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  overflow: visible;
+  border: 1px solid var(--vuetify-card-accent);
+  background: var(--vuetify-card-base);
+  color: rgb(var(--v-theme-on-surface));
+}
+.vuetify-card[data-card-density='roomy'] {
+  --vuetify-card-padding: 24px;
+}
+.vuetify-card[data-card-density='compact'] {
+  --vuetify-card-padding: 12px;
+}
+.vuetify-card[data-card-title-size='large'] {
+  --vuetify-card-title-size: 1.375rem;
+}
+.vuetify-card[data-card-title-size='small'] {
+  --vuetify-card-title-size: 1rem;
+}
+.vuetify-card[data-card-surface='tinted'] {
+  background: var(--vuetify-card-tint);
+}
+.vuetify-card[data-card-border='dashed'] {
+  --vuetify-card-separator-style: dashed;
+  border-style: dashed;
+}
+.vuetify-card[data-card-border='dotted'] {
+  --vuetify-card-separator-style: dotted;
+  border-style: dotted;
+}
+.vuetify-card[data-card-border='double'] {
+  border-style: double;
+  border-width: 3px;
+}
+.vuetify-card > .vuetify-card-header,
+.vuetify-card > .vuetify-card-body,
+.vuetify-card > .vuetify-card-footer > .vuetify-card-footer-content {
+  min-width: 0;
+  padding: var(--vuetify-card-padding);
+  overflow: visible;
+}
+/* An explicitly arranged body owns its insets; nested content stays intact. */
+.vuetify-card[data-card-body='layout'] > .vuetify-card-body {
+  padding: 0;
+}
+.vuetify-card > .vuetify-card-header {
+  border: 0;
+  border-start-start-radius: inherit;
+  border-start-end-radius: inherit;
+  background: transparent;
+  color: inherit;
+}
+.vuetify-card[data-card-header='band'] > .vuetify-card-header {
+  background: var(--vuetify-card-tint);
+  border-block-end: 1px var(--vuetify-card-separator-style)
+    var(--vuetify-card-accent);
+}
+.vuetify-card[data-card-header='plain'] > .vuetify-card-header {
+  padding-block-end: 0;
+}
+.vuetify-card-title {
+  font-size: var(--vuetify-card-title-size);
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+/* Only headings explicitly supplied to the title slot adopt its presentation. */
+.vuetify-card-title > :where(h1, h2, h3, h4, h5, h6) {
+  font: inherit;
+  margin: 0;
+}
+.vuetify-card-description {
+  font-size: 0.875rem;
+  margin-block-start: 0.25rem;
+}
+
+/* Explicit footer treatment: quieter text without fading the surface or controls. */
+.vuetify-card[data-card-footer='muted']
+  > .vuetify-card-footer
+  > .vuetify-card-footer-content {
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  font-size: 0.875rem;
+}
+
+/* Backend focus presentation for fallback form focus and opt-in elements. */
+.vuetify-form,
+.vuetify-focus-presentation {
+  border-radius: 4px;
+}
+.vuetify-form:focus-visible,
+.vuetify-focus-presentation:focus-visible {
+  outline: 2px solid
+    rgba(
+      var(--v-theme-on-surface),
+      calc(0.25 * var(--v-theme-overlay-multiplier))
+    );
+  outline-offset: var(--vuetify-contained-focus-offset, 2px);
+}
+@media (forced-colors: active) {
+  .vuetify-form:focus-visible,
+  .vuetify-focus-presentation:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+
+/* Allocation framing stays outside each region's scrolling content. */
+.vuetify-layout {
+  --vuetify-layout-separator-size: 1px;
+  --vuetify-layout-handle-size: 0.5rem;
+}
+.vuetify-layout-item[data-raised] {
+  background: rgb(var(--v-theme-surface));
+}
+/* Boundary emphasis never changes the elevation recipe. */
+.vuetify-layout [data-boundary-role] {
+  --vuetify-layout-boundary-color: rgba(
+    var(--v-border-color),
+    var(--v-border-opacity)
+  );
+}
+.vuetify-layout [data-boundary-role='start'] {
+  --vuetify-layout-boundary-color: rgba(
+    var(--v-border-color),
+    calc(var(--v-border-opacity) * 2)
+  );
+}
+.vuetify-layout-separator {
+  background: var(--vuetify-layout-boundary-color);
+  align-self: stretch;
+  justify-self: stretch;
+}
+.vuetify-layout-resizer {
+  background: rgb(var(--v-theme-surface));
+  position: relative;
+  align-self: stretch;
+  justify-self: stretch;
+  touch-action: none;
+  user-select: none;
+}
+.vuetify-layout-resizer::before {
+  content: '';
+  position: absolute;
+  background: var(--vuetify-layout-boundary-color);
+}
+.vuetify-layout-resizer[aria-orientation='vertical'] {
+  cursor: col-resize;
+}
+.vuetify-layout-resizer[aria-orientation='horizontal'] {
+  cursor: row-resize;
+}
+.vuetify-layout-resizer[aria-orientation='vertical']::before {
+  inset-block: 0;
+  inset-inline-start: 50%;
+  width: var(--vuetify-layout-separator-size);
+}
+.vuetify-layout-resizer[aria-orientation='horizontal']::before {
+  inset-inline: 0;
+  inset-block-start: 50%;
+  height: var(--vuetify-layout-separator-size);
+}
+@media (forced-colors: active) {
+  .vuetify-layout-separator,
+  .vuetify-layout-resizer::before {
+    background: CanvasText;
+  }
+}
+
+/* Only this absolute decoration is size-contained. Content and focus are not clipped.
+   Rotate the native shadow plane, swapping its dimensions, so its bottom-facing
+   recipe points toward the lower neighbour on every side. */
+.vuetify-layout-edge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  container-type: size;
+}
+.vuetify-layout-edge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: var(--vuetify-layout-separator-size) solid
+    var(--vuetify-layout-boundary-color);
+}
+.vuetify-layout-edge[data-resizable]::after {
+  display: none;
+}
+.vuetify-layout-edge-shadow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100cqw;
+  height: 100cqh;
+  transform: translate(-50%, -50%);
+}
+.vuetify-layout-edge[data-direction='vertical'][data-edge='before'] {
+  clip-path: inset(
+    -100vmax 0 calc(100% - var(--vuetify-layout-separator-size)) 0
+  );
+}
+.vuetify-layout-edge[data-direction='vertical'][data-edge='before']
+  > .vuetify-layout-edge-shadow {
+  transform: translate(-50%, -50%) scaleY(-1);
+}
+.vuetify-layout-edge[data-direction='vertical'][data-edge='after'] {
+  clip-path: inset(
+    calc(100% - var(--vuetify-layout-separator-size)) 0 -100vmax 0
+  );
+}
+.vuetify-layout-edge[data-direction='horizontal']
+  > .vuetify-layout-edge-shadow {
+  width: 100cqh;
+  height: 100cqw;
+}
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='before']:dir(ltr),
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='after']:dir(rtl) {
+  clip-path: inset(
+    0 calc(100% - var(--vuetify-layout-separator-size)) 0 -100vmax
+  );
+}
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='before']:dir(ltr)
+  > .vuetify-layout-edge-shadow,
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='after']:dir(rtl)
+  > .vuetify-layout-edge-shadow {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='after']:dir(ltr),
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='before']:dir(rtl) {
+  clip-path: inset(
+    0 -100vmax 0 calc(100% - var(--vuetify-layout-separator-size))
+  );
+}
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='after']:dir(ltr)
+  > .vuetify-layout-edge-shadow,
+.vuetify-layout-edge[data-direction='horizontal'][data-edge='before']:dir(rtl)
+  > .vuetify-layout-edge-shadow {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+@media (forced-colors: active) {
+  .vuetify-layout-edge::after {
+    border-color: CanvasText;
+  }
+  .vuetify-layout-edge-shadow {
+    box-shadow: none !important;
+  }
+}
+
+/* The native top layer owns modality; this adapter owns the dialog surface. */
+.vuetify-modal {
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-block-size: calc(100dvh - 48px);
+  overflow: visible;
+  margin: auto;
+}
+.vuetify-modal::backdrop {
+  background: rgb(0 0 0 / var(--v-overlay-opacity, 0.32));
+}
+.vuetify-modal-title {
+  margin: 0;
+  font: inherit;
+  white-space: normal;
+}
+.vuetify-modal-surface {
+  display: flex;
+  flex-direction: column;
+  max-block-size: calc(100dvh - 48px);
+}
+.vuetify-modal-header {
+  flex: none;
+  padding: 16px 24px;
+}
+.vuetify-modal-footer {
+  justify-content: flex-end;
+}
+/* VCard's native rank would trap the modal sections below dialog-owned popups. */
+.vuetify-modal .vuetify-modal-surface {
+  z-index: auto;
+}
+.vuetify-modal-header,
+.vuetify-modal-footer {
+  position: relative;
+  background-color: inherit;
+}
+
+/* VDialog's native contextual VCardText treatment; native top-layer hosting
+   replaces VOverlay, so its ancestor selector cannot match this composition. */
+.vuetify-modal-scroll {
+  padding: 16px 24px 24px;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: 0.03125em;
+  min-block-size: 0;
+  overflow: auto;
+}
+
+/* Read-only record definitions retain semantic terms and rich values. */
+.vuetify-key-value-list {
+  margin: 0;
+  min-width: 0;
+}
+.vuetify-key-value-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.5em 16px;
+  padding-block: 0.5em;
+}
+.vuetify-key-value-item > dt {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.vuetify-key-value-item > dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 40rem) {
+  .vuetify-key-value-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25em;
+  }
+}
+
+.vuetify-tab-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow-wrap: anywhere;
+}
+.vuetify-tab-panel[hidden] {
+  display: none;
+}
+
+.vuetify-badge {
+  max-inline-size: 100%;
+  height: auto;
+  min-block-size: 1.5em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.vuetify-badge .v-chip__content {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Modal action sequence starts at inline-end; text direction is inherited. */
+.vuetify-footer-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: inherit;
+  inline-size: 100%;
+}
+
+/* Consume the selected set; an application override takes precedence. */
+:root,
+body,
+[lang] {
+  --v-font-body: var(
+    --uninterface-font-family,
+    var(--uninterface-font-set-family, system-ui, sans-serif)
+  );
+  --v-font-heading: var(--v-font-body);
+}
+
+:root,
+body,
+[lang]:where(:not(code, pre, kbd, samp)) {
+  font-family: var(--v-font-body);
+}
+
+/* Scroll hosts own an inward indicator; descendant clearance is inside their padding. */
+.vuetify-scroll-focus:focus-visible,
+.vuetify-content[data-scroll]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: calc(-1 * 2px);
+}
+.vuetify-tab-panel:focus-visible {
+  outline-offset: calc(-1 * 2px);
+}
+@media (forced-colors: active) {
+  .vuetify-scroll-focus:focus-visible,
+  .vuetify-content[data-scroll]:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
+
+.vuetify-modal-scroll:focus-visible {
+  outline-offset: calc(-1 * 2px);
+}
+
+/* Move the header/body separation inside the body scroll boundary. */
+.vuetify-modal-header {
+  padding-block-end: 0;
+}
+
+/* Unpadded scrolling preserves alignment by containing focus paint, not adding
+   a content gutter. A padded surface starts its own native presentation context. */
+.vuetify-content[data-inset='none'][data-scroll],
+.vuetify-layout[data-scroll],
+.vuetify-scroll-focus,
+.vuetify-region-scroll {
+  --vuetify-contained-focus-offset: calc(-1 * 2px);
+}
+.vuetify-content:not([data-inset='none']),
+.vuetify-card,
+.vuetify-modal {
+  --vuetify-contained-focus-offset: initial;
+}
+
+/* Recovery actions use the content column so they can wrap on narrow hosts. */
+.vuetify-notice .v-alert__content {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+.vuetify-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-block-start: 12px;
+}
+
+[data-password-reveal] svg {
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+.vuetify-suggestions > [role='listbox'] {
+  max-block-size: 18rem;
+  overflow: auto;
+}
+/* Let a retained option prevent mousedown from moving focus out of the editor. */
+.vuetify-suggestions [aria-busy='true'] .v-list-item--disabled {
+  pointer-events: auto;
+}
+
+.vuetify-file-input {
+  min-inline-size: 0;
+}
+.vuetify-file-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin: 0;
+  text-align: center;
+}
+.vuetify-file-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  max-inline-size: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.vuetify-file-icon > * {
+  inline-size: 100%;
+  block-size: 100%;
+}
+.vuetify-file-icon > [data-file-thumbnail] {
+  object-fit: contain;
+  overflow: hidden;
+}
+.vuetify-file-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  line-height: 1.25;
+}
+.vuetify-file-preview-name {
+  flex: 0 0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vuetify-file-size {
+  font-size: 0.875em;
+}
+.vuetify-file-preview[data-presentation='row'] {
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: start;
+}
+.vuetify-file-preview[data-presentation='row'] > .vuetify-file-icon {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+}
+.vuetify-file-preview[data-presentation='row'] .vuetify-file-details {
+  flex: 1 1 auto;
+}
+.vuetify-file-preview[data-presentation='row'] .vuetify-file-preview-name {
+  font-weight: 600;
+}
+.vuetify-file-collection {
+  list-style: none;
+  padding: 0;
+}
+
+.vuetify-temporal-editor {
+  min-inline-size: 0;
+}
+
+.vuetify-temporal-boundary {
+  min-inline-size: 0;
+}
+
+.vuetify-input-frame-host {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.vuetify-input-frame-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+  min-inline-size: 0;
+}
+
+.vuetify-file-input {
+  inline-size: 100%;
+}
+.vuetify-file-name {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vuetify-file-clear {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.vuetify-file-clear:focus-visible {
+  outline: 2px solid currentColor;
+  /* The native clearable slot clips paint outside the action. */
+  outline-offset: -2px;
+}
+
+/* Endpoints retain native editing but share the enclosing UiInputFrame surface. */
+.vuetify-temporal-range {
+  display: grid;
+  grid-template-columns:
+    minmax(0, max-content) auto minmax(0, max-content)
+    minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5em;
+  flex: 1 1 24ch;
+  inline-size: auto;
+  min-inline-size: 0;
+}
+@media (max-width: 40rem) {
+  .vuetify-temporal-range {
+    grid-template-columns: auto minmax(0, max-content) minmax(0, 1fr);
+  }
+  .vuetify-temporal-range > .vuetify-temporal-boundary {
+    grid-column: 2;
+  }
+  .vuetify-temporal-range > [data-temporal-separator] {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .vuetify-temporal-range > .vuetify-temporal-spacer {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+}
+
+/* Native filled/focused/error rules reach nested VField decoration through
+   descendant selectors, even when the nested field's variant is plain.
+   Only the explicit frame participant relinquishes its own decoration. */
+[data-ui-control-frame='parent']
+  > .v-input__control
+  > .v-field
+  > .v-field__overlay,
+[data-ui-control-frame='parent']
+  > .v-input__control
+  > .v-field
+  > .v-field__outline {
+  display: none;
+}
+
+[data-ui-control-frame='parent'] > .v-input__control > .v-field--variant-plain {
+  --v-field-padding-top: 0px;
+  --v-input-padding-top: 0px;
+  --v-field-padding-bottom: 0px;
+  --v-input-control-height: 1.5em;
+}
+[data-ui-control-frame='parent']
+  > .v-input__control
+  > .v-field
+  > .v-field__field
+  > .v-field__input {
+  padding-block: 0;
+  min-block-size: 1.5em;
+}
+
+/* Integrated range actions follow the input's font and content height. */
+[data-temporal-range] .vuetify-temporal-range [data-temporal-trigger],
+[data-temporal-range] [data-temporal-unbounded],
+[data-temporal-range] [data-temporal-clear],
+[data-temporal-range] [data-temporal-mode],
+[data-temporal-range] [data-temporal-range-trigger] {
+  font-size: inherit;
+  min-inline-size: 0;
+  inline-size: 1.5em;
+  block-size: 1.5em;
+  min-block-size: 0;
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+/* Text widths leave surplus allocation after both endpoints. */
+.vuetify-temporal-part input.v-field__input {
+  inline-size: var(--vuetify-temporal-text-width);
+  min-inline-size: 0;
+}
+.vuetify-temporal-part .v-input {
+  inline-size: max-content;
+  max-inline-size: 100%;
+}
+[data-temporal-mode-icon] {
+  margin-inline-end: 1em;
+}
+[data-temporal-next-day] {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+/* Native mode arrows and the custom next-day symbol share one icon square. */
+.vuetify-temporal-symbol {
+  display: inline-grid;
+  place-items: center;
+  position: relative;
+  flex: 0 0 auto;
+  inline-size: 1em;
+  block-size: 1em;
+  line-height: 1;
+}
+.vuetify-temporal-symbol > svg {
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+.vuetify-notice-icon {
+  display: inline-flex;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+.vuetify-notice-icon > * {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* Ordinary rich-content links remain readable on filled notices; explicit link components retain their own presentation. */
+.vuetify-notice[data-variant='filled'] :where(a[href]:not([class])) {
+  color: inherit;
+}
+
+/* UiField owns editor accessibility helpers. Keep their absolute boxes local
+   to this required composition, including when the field is deep in a scrollport.
+   Clip the helper itself; retain visible focus and popup overflow on the field. */
+.vuetify-field,
+.vuetify-field-editor {
+  position: relative;
+}
+.vuetify-select-status,
+.vuetify-required-description,
+.vuetify-tooltip-description,
+.vuetify-field > .vuetify-sr-only {
+  inset-block-start: 0;
+  inset-inline-start: 0;
+}
+
+/* Root navigation owns its edge unless an explicit navigation region adopts it. */
+.vuetify-navigation-surface {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  position: relative;
+}
+.vuetify-navigation-surface:not([data-navigation-mode='horizontal']) {
+  inline-size: max-content;
+}
+.vuetify-navigation-surface[data-navigation-mode='horizontal'] {
+  inline-size: 100%;
+}
+.vuetify-navigation-surface[data-navigation-boundary='inline-end'] {
+  border-inline-end: 1px solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.vuetify-navigation-surface[data-navigation-boundary='inline-start'] {
+  border-inline-start: 1px solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.vuetify-navigation-surface[data-navigation-boundary='block-end'],
+.vuetify-navbar[data-navigation-boundary='block-end'] {
+  border-block-end: 1px solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.vuetify-navigation-surface[data-navigation-boundary='block-start'],
+.vuetify-navbar[data-navigation-boundary='block-start'] {
+  border-block-start: 1px solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.vuetify-navbar[data-navigation-boundary='none'] {
+  border-block: 0;
+}
+.vuetify-navbar-links > .vuetify-navigation-surface {
+  align-self: stretch;
+}
+.vuetify-navigation-hint {
+  position: fixed;
+  max-inline-size: min(12rem, calc(100vw - 1rem));
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 0.25rem;
+  background: rgb(var(--v-theme-surface));
+  color: rgb(var(--v-theme-on-surface));
+  pointer-events: none;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vuetify-navigation-surface * {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+.vuetify-navigation-surface .vuetify-navigation-rail {
+  inline-size: 56px;
+}
+.vuetify-navigation-surface .vuetify-entry-item-rail {
+  grid-template-columns: max-content 0;
+  justify-content: start;
+}
+.vuetify-navigation-surface .vuetify-entry-list.v-list > li + li {
+  margin-block-start: 4px;
+}
+
+.vuetify-navigation-surface [data-rail-heading] {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  min-block-size: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.vuetify-navbar-links > .vuetify-navigation-surface {
+  display: flex;
+  align-items: center;
+}
+
+.vuetify-navbar[data-navigation-boundary='block-start'] {
+  border-block-end: 0;
+}
+
+/* The native field is the complete drop boundary and stable allocation. */
+.vuetify-upload-host {
+  inline-size: 100%;
+  min-inline-size: 16rem;
+}
+.vuetify-upload-region {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 16rem;
+  block-size: 10rem;
+  min-block-size: 8rem;
+  overflow: clip;
+  grid-template-rows: minmax(0, 1fr);
+}
+.vuetify-upload-region[data-extent='compact'] {
+  block-size: 8rem;
+}
+.vuetify-upload-region[data-extent='large'] {
+  block-size: 16rem;
+}
+.vuetify-upload-region[data-extent='fill'] {
+  block-size: 100%;
+}
+.vuetify-upload-region > .v-field__field {
+  min-block-size: 0;
+  min-inline-size: 0;
+}
+/* Keep disabled drops intercepted instead of allowing browser navigation. */
+.vuetify-upload-region.v-field--disabled {
+  pointer-events: auto;
+}
+.vuetify-upload-content {
+  box-sizing: border-box;
+  block-size: 100%;
+  min-block-size: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0.75rem;
+  justify-content: safe center;
+}
+.vuetify-upload-content > * {
+  flex-shrink: 0;
+  min-inline-size: 0;
+}
+.vuetify-upload-content > [data-upload-choose] {
+  align-self: flex-start;
+  max-inline-size: 100%;
+  white-space: normal;
+}
+.vuetify-upload-feedback,
+.vuetify-upload-name {
+  min-inline-size: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* A failed acquisition shows one error and recovery actions, not a second
+   filename row. The accepted preview keeps its own identity when present. */
+.vuetify-upload-content:is(
+    [data-upload-phase='ready'],
+    [data-upload-phase='delivery-failed']
+  )[data-upload-recovery]
+  > .vuetify-upload-name {
+  display: none;
+}
+.vuetify-upload-feedback:empty {
+  display: none;
+}
+.vuetify-upload-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.vuetify-upload-actions > * {
+  max-inline-size: 100%;
+  white-space: normal;
+  margin: 0;
+}
+.vuetify-upload-progress {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  inline-size: 100%;
+  gap: 0.75rem;
+  min-inline-size: 0;
+}
+.vuetify-upload-progress > .upload-progress-name {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: start;
+}
+.vuetify-upload-progress > .upload-progress-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.vuetify-upload-progress .upload-progress-context {
+  flex: 1 1 8em;
+  min-inline-size: 0;
+}
+.vuetify-upload-progress[data-recovery],
+.vuetify-upload-progress[data-recovery] > .upload-progress-body {
+  row-gap: 0.25rem;
+}
+.vuetify-upload-progress > * {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.vuetify-upload-remove-icon,
+.vuetify-upload-content .upload-remove-icon {
+  inline-size: 1em;
+  block-size: 1em;
+  margin-inline-end: 0;
+}
+
+.vuetify-upload-content .upload-required-description,
+.vuetify-upload-progress .upload-announcement {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Native upload artwork remains; the filled field owns the surface. */
+.vuetify-upload-icon {
+  display: flex;
+  align-self: center;
+  flex-shrink: 0;
+  font-size: 3rem;
+  line-height: 1;
+  opacity: var(--v-medium-emphasis-opacity);
+}
+.vuetify-upload-content:is([data-extent='compact'], [data-extent='fill'])
+  > .vuetify-upload-icon {
+  font-size: 2rem;
+}
+.vuetify-upload-content > [data-upload-choose] {
+  align-self: center;
+}
+
+/* Recovery uses a file/error summary and one row of available actions. */
+.vuetify-upload-content:is(
+    [data-upload-phase='ready'],
+    [data-upload-phase='delivery-failed']
+  )[data-upload-recovery] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: safe center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+.vuetify-upload-content[data-upload-recovery] > .vuetify-upload-name,
+.vuetify-upload-content[data-upload-recovery] > .vuetify-upload-feedback {
+  flex-basis: 100%;
+}
+.vuetify-upload-content[data-upload-recovery] > [data-upload-choose],
+.vuetify-upload-content[data-upload-recovery] > .vuetify-upload-actions {
+  order: 1;
+  inline-size: auto;
+  flex: 0 1 auto;
+}
+
+/* File identity above one progress/action row; retained summary beside removal. */
+.vuetify-upload-content:is(
+  [data-upload-phase='validating'],
+  [data-upload-phase='uploading'],
+  [data-upload-phase='delivering']
+) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-content: safe center;
+  align-items: center;
+}
+.vuetify-upload-content > .vuetify-upload-name {
+  grid-column: 1 / -1;
+}
+.vuetify-upload-content > .vuetify-upload-progress {
+  grid-column: 1;
+}
+.vuetify-upload-content > .vuetify-upload-actions {
+  grid-column: 2;
+}
+/* Two independent placements in one grid area: centered content and end action.
+   Equal content gutters protect the action without moving the content's center. */
+.vuetify-upload-content[data-upload-phase='occupied'] {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  align-content: stretch;
+  align-items: center;
+}
+.vuetify-upload-content[data-upload-phase='occupied']
+  > :is(.vuetify-upload-preview, .vuetify-upload-name) {
+  grid-area: 1 / 1;
+  box-sizing: border-box;
+  inline-size: 100%;
+  padding-inline: 3.5rem;
+  text-align: center;
+}
+.vuetify-upload-content[data-upload-phase='occupied']
+  > .vuetify-upload-actions {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+.vuetify-upload-content[data-upload-phase='occupied']
+  > .vuetify-upload-feedback {
+  grid-area: 2 / 1;
+}
+
+/* Image-only presentation: the host supplies bounds; no frame, caption or clipping. */
+.vuetify-image-preview {
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  vertical-align: middle;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: 0;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vuetify-image-preview > * {
+  grid-area: 1 / 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+}
+.vuetify-image-preview img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: var(--ui-image-fit, contain);
+  object-position: center;
+  border: 0;
+  border-radius: 0;
+}
+.vuetify-image-preview-broken {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.vuetify-image-preview-broken svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+}
+.vuetify-upload-preview {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  block-size: 100%;
+  min-block-size: 0;
+  min-inline-size: 0;
+}
+.vuetify-image-preview > .v-img {
+  inline-size: 100%;
+  block-size: 100%;
+  flex: none;
+  border-radius: 0;
+  /* Retain VResponsive's native overflow containment: its aspect-ratio spacer
+     can exceed fixed bounds even when the visible image fits them. */
+}
+.vuetify-image-preview .v-responsive__sizer {
+  transition: none;
+}
+
+/* Read-only field frame; the preview renderer remains borderless. */
+.vuetify-preview-region {
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+.vuetify-preview-viewport {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  box-sizing: border-box;
+  block-size: 10rem;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
+}
+.vuetify-preview-region[data-extent='compact'] > .vuetify-preview-viewport {
+  block-size: 6rem;
+}
+.vuetify-preview-region[data-extent='large'] > .vuetify-preview-viewport {
+  block-size: 16rem;
+}
+.vuetify-preview-viewport > * {
+  min-inline-size: 0;
+  min-block-size: 0;
+  max-inline-size: 100%;
+  max-block-size: 100%;
+}
+.vuetify-preview-host {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+/* Transfer recovery belongs to the reusable upload presentation. */
+.vuetify-upload-progress .upload-progress-actions {
+  align-self: start;
+  display: flex;
+  gap: 0.5rem;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-inline-start: auto;
+}
+.vuetify-upload-progress .upload-transfer-issue {
+  display: block;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  color: rgb(var(--v-theme-error));
+}
+/* A standalone transfer shows the complete error. The bounded acquisition
+   region keeps its concise summary without growing or becoming scrollable. */
+.vuetify-upload-region .vuetify-upload-progress .upload-transfer-issue {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vuetify-upload-content[data-upload-recovery] {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+.vuetify-upload-content[data-upload-recovery] > [data-upload-choose] {
+  grid-column: 1;
+  order: 0;
+}
+.vuetify-upload-content[data-upload-recovery] > .vuetify-upload-progress {
+  grid-column: 2;
+}
+.vuetify-upload-content[data-upload-recovery] > .vuetify-upload-feedback {
+  grid-column: 1 / -1;
+}
+
+/* Coordinate the chooser with identity, leaving the complete lower row for
+   transfer feedback and recovery actions. This is private backend composition. */
+.vuetify-upload-content:has(> .vuetify-upload-progress[data-recovery]) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  row-gap: 0.25rem;
+}
+.vuetify-upload-content:has(> .vuetify-upload-progress[data-recovery])
+  > [data-upload-choose] {
+  grid-area: 1 / 1;
+  z-index: 1;
+}
+.vuetify-upload-content > .vuetify-upload-progress[data-recovery] {
+  grid-area: 1 / 1 / 3 / -1;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+}
+.vuetify-upload-content
+  > .vuetify-upload-progress[data-recovery]
+  > .upload-progress-name {
+  grid-area: 1 / 2;
+}
+.vuetify-upload-content
+  > .vuetify-upload-progress[data-recovery]
+  > .upload-progress-body {
+  grid-area: 2 / 1 / 3 / -1;
+}
+/* Collections own each overflow axis separately. Full height is allocated
+   by the parent; content height never creates a vertical scrollbar. */
+.vuetify-collection {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+.vuetify-collection[data-full] {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.vuetify-collection[data-scroll='horizontal'],
+.vuetify-collection[data-scroll='both'] {
+  overflow-x: auto;
+}
+.vuetify-collection[data-scroll='horizontal'] {
+  overflow-y: hidden;
+}
+.vuetify-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vuetify-list > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  min-width: 0;
+}
+.vuetify-list > li[data-selectable] {
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: 8px;
+}
+.vuetify-list-selection {
+  display: flex;
+  align-items: flex-start;
+  justify-self: start;
+}
+.vuetify-list-content {
+  min-width: 0;
+}
+.vuetify-collection-status,
+.vuetify-table th {
+  position: relative;
+}
+.vuetify-collection-status[data-infinity-feedback] {
+  text-align: center;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+  font-size: 0.875em;
+}
+.vuetify-collection-status p {
+  margin-block: 0.5rem;
+}
+.vuetify-collection-announcement {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.vuetify-collection-sentinel {
+  height: 1px;
+}
+.vuetify-paginator {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vuetify-paginator-size {
+  min-width: 6rem;
+  max-width: 12rem;
+}
+
+/* Column allocation and resize affordances belong to the table backend. */
+.vuetify-collection[data-column-fit] {
+  min-width: 0;
+  max-width: 100%;
+}
+.vuetify-table th,
+.vuetify-table td {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.vuetify-column-resizer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 0.5rem;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+}
+.vuetify-column-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 20%;
+  inset-inline-end: 0;
+  border-inline-end: 1px solid currentColor;
+  opacity: 0.35;
+}
+.vuetify-column-resizer:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+/* Shared modal allocation retains native viewport clearance. */
+.vuetify-modal {
+  --uninterface-modal-edge-clearance: 24px;
+}
+
+.vuetify-table-footer {
+  position: sticky;
+  inset-inline-start: 0;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* VTable's native fixed header uses the named collection scrollport. */
+.vuetify-collection .v-table__wrapper {
+  overflow-x: visible;
+  overflow-y: visible;
+}
+
+/* Native sticky headers also set left:0 for non-fixed columns. Release that
+   horizontal attachment so headers follow their body/footer tracks on scroll. */
+.vuetify-table
+  .v-data-table__th--sticky:not(.v-data-table-column--fixed):not(
+    .v-data-table-column--fixed-end
+  ) {
+  left: auto;
+  right: auto;
+}
+
+.vuetify-paginator > .v-pagination {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.vuetify-paginator-jumper {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+
+/* Collection frames own selection; no checkbox sits outside the card. */
+.vuetify-collection-cards {
+  --ui-collection-card-default-min: 20rem;
+  --ui-collection-card-default-max: 25rem;
+  --ui-collection-card-min: var(--ui-collection-card-default-min);
+  --ui-collection-card-max: var(--ui-collection-card-default-max);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vuetify-collection-cards[data-grid] {
+  justify-content: start;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(
+      min(100%, var(--ui-collection-card-min)),
+      min(100%, var(--ui-collection-card-max))
+    )
+  );
+}
+.vuetify-collection-cards > li {
+  min-width: 0;
+}
+.vuetify-card[data-collection-selected] {
+  outline: 2px solid rgb(var(--v-theme-primary));
+  outline-offset: -2px;
+}
+.vuetify-collection-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.vuetify-collection-card-selection,
+.vuetify-collection-card-leading {
+  flex: none;
+  display: flex;
+  align-items: center;
+}
+.vuetify-collection-card-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.vuetify-collection-card-indicators,
+.vuetify-collection-card-overlay {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vuetify-collection-card-indicators {
+  margin-inline-start: auto;
+}
+.vuetify-collection-card-media {
+  position: relative;
+  min-width: 0;
+}
+.vuetify-collection-card-overlay {
+  position: absolute;
+  inset-block-start: 0.5rem;
+  inset-inline-end: 0.5rem;
+  max-width: calc(100% - 1rem);
+}
+.vuetify-collection-card-details {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+.vuetify-collection-card-details > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 0.5rem;
+}
+.vuetify-collection-card-details dt {
+  font-weight: 600;
+}
+.vuetify-collection-card-details dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.vuetify-collection-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* The owner supplies the loading surface; only the overlay is clipped. */
+.vuetify-loading-region {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: inherit;
+  overflow-x: clip;
+  overflow-y: clip;
+  pointer-events: auto;
+}
+.vuetify-loading-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  vertical-align: middle;
+}
+.vuetify-loading-label-hidden {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.vuetify-loading-native {
+  align-items: center;
+  justify-content: center;
+}
+.vuetify-loading-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Live activity is outside busy/inert content and cannot enlarge a scrollport. */
+.vuetify-loading-announcement {
+  position: fixed;
+  inset: 0 auto auto 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* An unbounded, initially empty collection still needs a visible loading surface. */
+.vuetify-collection[data-loading-empty]:not([data-full]) {
+  min-height: 4rem;
+}
+
+/* Content-sized empty presentation must not demand its parent's full height. */
+.vuetify-empty.v-empty-state {
+  min-height: 0;
+}
+.vuetify-empty > .v-empty-state__actions {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* The collection owns a supporting failure region outside the data scrollport. */
+.vuetify-collection-frame {
+  min-width: 0;
+  min-height: 0;
+}
+.vuetify-collection-frame[data-collection-full] {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.vuetify-collection-frame[data-collection-full] > .vuetify-collection {
+  flex: 1;
+  height: auto;
+}
+.vuetify-collection-failure {
+  min-width: 0;
+  flex: none;
+}
+.vuetify-collection-failure[data-collection-failure='replacement'] {
+  margin-block-end: 0.5rem;
+}
+.vuetify-collection-failure[data-collection-failure='append'] {
+  margin-block-start: 0.5rem;
+}
+
+.vuetify-notice {
+  --vuetify-notice-max-action-hang: 100vw;
+}
+
+/* Hang the leading text action padding into the notice inset. Move the row
+   together so native hit targets, focus paint, wrapping and peer gaps survive. */
+.vuetify-notice-actions:has(
+  > .vuetify-button-host:first-child > [data-ui-button-variant='text']
+) {
+  margin-inline-start: max(
+    calc(-1 * var(--vuetify-notice-action-inset, 16px)),
+    calc(-1 * var(--vuetify-notice-max-action-hang, 100vw))
+  );
+}
+.vuetify-notice-actions:has(
+  > .vuetify-button-host:first-child
+    > [data-ui-button-variant='text'].v-btn--size-x-small
+) {
+  margin-inline-start: max(
+    calc(-1 * var(--vuetify-notice-action-inset, 8px)),
+    calc(-1 * var(--vuetify-notice-max-action-hang, 100vw))
+  );
+}
+.vuetify-notice-actions:has(
+  > .vuetify-button-host:first-child
+    > [data-ui-button-variant='text'].v-btn--size-small
+) {
+  margin-inline-start: max(
+    calc(-1 * var(--vuetify-notice-action-inset, 12px)),
+    calc(-1 * var(--vuetify-notice-max-action-hang, 100vw))
+  );
+}
+.vuetify-notice-actions:has(
+  > .vuetify-button-host:first-child
+    > [data-ui-button-variant='text'].v-btn--size-large
+) {
+  margin-inline-start: max(
+    calc(-1 * var(--vuetify-notice-action-inset, 20px)),
+    calc(-1 * var(--vuetify-notice-max-action-hang, 100vw))
+  );
+}
+.vuetify-notice-actions:has(
+  > .vuetify-button-host:first-child
+    > [data-ui-button-variant='text'].v-btn--size-x-large
+) {
+  margin-inline-start: max(
+    calc(-1 * var(--vuetify-notice-action-inset, 24px)),
+    calc(-1 * var(--vuetify-notice-max-action-hang, 100vw))
+  );
+}
+
+/* Without an icon column, keep the target and focus inside the frame. */
+.vuetify-notice:not(:has(> .v-alert__prepend)) {
+  --vuetify-notice-max-action-hang: 12px;
+}
+
+/* Drawer and popover integration: native surfaces, bounded inner scrolling,
+   logical edges, and no allocation while hidden. No business CSS is required. */
+.vuetify-overlay {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: min(26rem, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow: visible;
+  transform: none;
+}
+.vuetify-overlay:not([open]):not(:popover-open) {
+  display: none;
+}
+.vuetify-overlay[open],
+.vuetify-overlay:popover-open {
+  display: flex;
+  visibility: visible;
+  flex-direction: column;
+}
+/* Drawers meet the viewport; safe-area padding belongs inside the surface. */
+.vuetify-overlay[data-ui-overlay='drawer'] {
+  inset-block: 0;
+  height: 100dvh;
+  width: min(26rem, 100vw);
+  max-width: 100vw;
+  max-height: 100dvh;
+  max-block-size: 100dvh;
+  border-radius: 0;
+  --drawer-slide-x: 0%;
+  --drawer-slide-y: 0%;
+}
+.vuetify-overlay[data-ui-overlay='drawer'] > :first-child {
+  max-block-size: 100%;
+  border-radius: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-edge='start'] {
+  inset-inline-start: 0;
+  --drawer-slide-x: -100%;
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-edge='end'] {
+  inset-inline-end: 0;
+  --drawer-slide-x: 100%;
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-edge='start']:dir(rtl) {
+  --drawer-slide-x: 100%;
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-edge='end']:dir(rtl) {
+  --drawer-slide-x: -100%;
+}
+.vuetify-overlay[data-ui-overlay='drawer']:is(
+    [data-edge='top'],
+    [data-edge='bottom']
+  ) {
+  inset-inline: 0;
+  width: auto;
+  height: min(28rem, 100dvh);
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-edge='top'] {
+  inset-block-end: auto;
+  --drawer-slide-y: -100%;
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-edge='bottom'] {
+  inset-block-start: auto;
+  --drawer-slide-y: 100%;
+}
+.vuetify-overlay.vuetify-drawer-enter-active,
+.vuetify-overlay.vuetify-drawer-leave-active {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.vuetify-overlay.vuetify-drawer-enter-from,
+.vuetify-overlay.vuetify-drawer-leave-to {
+  transform: translate(var(--drawer-slide-x), var(--drawer-slide-y));
+}
+@media (prefers-reduced-motion: reduce) {
+  .vuetify-overlay.vuetify-drawer-enter-active,
+  .vuetify-overlay.vuetify-drawer-leave-active {
+    transition: none;
+  }
+}
+.vuetify-overlay[data-ui-overlay='popover'] {
+  width: min(24rem, calc(100vw - 1rem));
+  inset: auto;
+  margin: 0;
+}
+/* Header filters fit their business editor; positioning bounds the viewport. */
+.vuetify-overlay[data-ui-overlay='popover'][data-ui-column-filter-popover] {
+  width: max-content;
+}
+.vuetify-overlay > :first-child {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  max-height: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+.vuetify-overlay-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.vuetify-overlay-heading > :last-child:not(h2) {
+  margin-inline-start: auto;
+}
+.vuetify-overlay-heading > h2 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+}
+.vuetify-overlay > :first-child > header,
+.vuetify-overlay > :first-child > footer {
+  flex: none;
+}
+.vuetify-overlay > :first-child > [role='region'] {
+  min-height: 0;
+  overflow: auto;
+  flex: 1;
+}
+.vuetify-overlay > :first-child > [role='region']:focus-visible {
+  outline-offset: -2px;
+}
+
+.vuetify-overlay:not([aria-modal='true'])::backdrop {
+  background: transparent;
+  backdrop-filter: none;
+  pointer-events: none;
+}
+
+/* Field peers anchor at their first row; editor/feedback growth goes down.
+   Bare actions retain the navbar's centered treatment. */
+.vuetify-navbar-actions > .vuetify-field {
+  align-self: flex-start;
+}
+
+/* Managed feedback viewport: theme spacing, bounded scrolling and independent items. */
+.vuetify-feedback-viewport {
+  position: fixed;
+  inset-inline-end: 0;
+  top: 0;
+  inline-size: min(26rem, 100vw);
+  box-sizing: border-box;
+  padding: 1rem;
+  max-block-size: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  pointer-events: none;
+}
+.vuetify-feedback-viewport:empty {
+  display: none;
+}
+.vuetify-feedback-viewport[data-placement^='bottom'] {
+  top: auto;
+  bottom: 0;
+}
+.vuetify-feedback-viewport[data-placement$='start'] {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+.vuetify-feedback-viewport[data-placement$='center'] {
+  inset-inline-start: 50%;
+  inset-inline-end: auto;
+  transform: translateX(-50%);
+}
+.vuetify-feedback-viewport > * {
+  flex: none;
+  pointer-events: auto;
+  max-inline-size: 100%;
+}
+.vuetify-feedback-item {
+  position: relative;
+  overflow-wrap: anywhere;
+}
+/* Direct content-region focus represents the delivery; child controls own their cues.
+   Paint outside the surface without replacing its native shadow/elevation. */
+.vuetify-feedback-surface:focus-visible,
+.vuetify-feedback-surface:has(> .vuetify-feedback-content:focus-visible),
+.vuetify-feedback-surface:has(
+  > .v-snackbar__header > .vuetify-feedback-content:focus-visible
+) {
+  outline: 2px solid
+    rgba(
+      var(--v-theme-on-surface),
+      calc(0.25 * var(--v-theme-overlay-multiplier))
+    );
+  outline-offset: 2px;
+}
+/* The content region's indicator is painted on the enclosing surface above. */
+.vuetify-feedback-content:focus-visible {
+  outline: none;
+}
+.vuetify-feedback-viewport:focus-visible {
+  outline: 2px solid
+    rgba(
+      var(--v-theme-on-surface),
+      calc(0.25 * var(--v-theme-overlay-multiplier))
+    );
+  outline-offset: -3px;
+}
+@media (forced-colors: active) {
+  .vuetify-feedback-surface:focus-visible,
+  .vuetify-feedback-surface:has(> .vuetify-feedback-content:focus-visible),
+  .vuetify-feedback-surface:has(
+    > .v-snackbar__header > .vuetify-feedback-content:focus-visible
+  ),
+  .vuetify-feedback-viewport:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
+.vuetify-feedback-announcement {
+  position: absolute;
+  inset: 0 auto auto 0;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Native snackbar surface uses the target's flow, never native fixed offsets. */
+.vuetify-feedback-snackbar.v-snackbar {
+  position: relative;
+  inset: auto;
+  margin: 0;
+  padding: 0;
+  transform: none;
+  display: flex;
+}
+.vuetify-feedback-snackbar.v-snackbar .v-overlay__content {
+  position: relative;
+}
+
+/* Snackbar actions lack the gap supplied by VCardActions. Complete that native
+   footer context before the shared arrangement inherits it. */
+.vuetify-feedback-snackbar .v-snackbar__actions {
+  flex: 1;
+  gap: 0.5rem;
+}
+
+/* Side-region navbars stack by orientation, independently of available width. */
+.vuetify-navbar[data-navbar-orientation='vertical'] {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  border-block: 0;
+}
+.vuetify-navbar[data-navbar-orientation='vertical'] > .vuetify-navbar-links {
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.vuetify-navbar[data-navbar-orientation='vertical'] > .vuetify-navbar-actions {
+  margin-inline-start: 0;
+}
+.vuetify-navbar[data-navbar-orientation='vertical'][data-navigation-boundary='inline-start'] {
+  border-inline-start: 1px solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.vuetify-navbar[data-navbar-orientation='vertical'][data-navigation-boundary='inline-end'] {
+  border-inline-end: 1px solid
+    rgba(var(--v-border-color), var(--v-border-opacity));
+}
+
+/* Compact column filter affordance; popup content has its own layout. */
+.vuetify-table-filter .table-filter-icon {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+/* Admitted ordinary editors divide the shared surface without owning its edge. */
+[data-ui-frame-editor] {
+  flex: 1 1 5ch;
+  min-inline-size: var(
+    --ui-text-min-width,
+    min(3ch, var(--ui-text-max-width, 3ch))
+  );
+  inline-size: 5ch;
+  max-inline-size: min(100%, var(--ui-text-max-width, 100%));
+}
+
+.vuetify-button-host[data-ui-control-frame='parent'] > .v-btn {
+  height: auto;
+  min-height: 1.5em;
+  padding-block: 0;
+  font-size: inherit;
+}
+
+/* Auto margin receives space only after growing editors reach their caps. */
+.vuetify-input-frame-spacer {
+  display: block;
+  flex: 0 0 0;
+  inline-size: 0;
+  min-inline-size: 0;
+  margin-inline-start: auto;
+  pointer-events: none;
+}
+
+/* Export the first editable row, not a leading decoration, as the frame baseline.
+   Native minimum-height space stays around the line; icons/actions stay centered. */
+.vuetify-input-frame-content {
+  align-content: center;
+}
+.v-input[data-ui-frame-editor] {
+  align-self: baseline;
+}
+
+.vuetify-button:not(.v-btn--icon) {
+  flex-wrap: wrap;
+  align-content: center;
+}
+.vuetify-button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.vuetify-button:has(.vuetify-button-icon [data-ui-icon-sized]) {
+  min-block-size: min-content;
+}
+.vuetify-button.v-btn--icon:has(.vuetify-button-icon [data-ui-icon-sized]) {
+  min-inline-size: min-content;
+  padding: 0.25em;
+}
+.vuetify-button:not(.v-btn--icon) > .v-btn__content {
+  align-self: baseline;
+}
+
+/* Row allocation and row alignment are independent. Slot wrappers stay keyed. */
+.vuetify-collection-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 16px;
+  row-gap: 0;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  flex: 0 0 auto;
+}
+.vuetify-collection-footer > [data-footer-part] {
+  flex: 0 1 auto;
+  inline-size: max-content;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.vuetify-collection-footer
+  > [data-footer-part]:not([data-footer-row='0']):not([data-footer-row='-1']) {
+  margin-block-start: 16px;
+}
+.vuetify-collection-footer > .vuetify-collection-footer-break {
+  flex: 0 0 100%;
+  block-size: 0;
+  min-block-size: 0;
+}
+.vuetify-collection-footer > .vuetify-collection-footer-info {
+  color: inherit;
+  font-size: 0.875rem;
+  overflow-wrap: anywhere;
+  text-align: end;
+}
+.vuetify-collection-footer > [data-navigation-start] {
+  margin-inline-start: auto;
+}
+.vuetify-collection-footer-paginator {
+  display: flex;
+  justify-content: flex-end;
+}
+.vuetify-paginator[data-compact] {
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+}
+.vuetify-paginator-direction {
+  display: inline-block;
+}
+.vuetify-paginator-direction:dir(rtl) {
+  transform: scaleX(-1);
+}
+
+/* Five visible digit cells; native padding/borders are additional, never maxlength. */
+.vuetify-paginator-jumper input {
+  box-sizing: content-box;
+  inline-size: 5ch;
+  min-inline-size: 5ch;
+  flex: 0 0 auto;
+}
+.vuetify-paginator-jumper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vuetify-paginator-jumper-input {
+  inline-size: max-content;
+}
+.vuetify-paginator-jumper .v-field__field {
+  flex: 0 0 auto;
+}
+/* VTextField's nested input is inside the native padded field surface. */
+.vuetify-paginator-jumper .v-field__input {
+  flex: 0 0 auto;
+  inline-size: auto;
+}
+.vuetify-paginator-jumper .v-field__input > input {
+  inline-size: 5ch;
+}
+
+/* Collection intent groups use native controls; no competing table/query engine. */
+.vuetify-collection-header {
+  --collection-header-gap: 12px;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  inline-size: 100%;
+  flex: 0 0 auto;
+}
+.vuetify-collection-header-primary,
+.vuetify-collection-header-part {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--collection-header-gap, 12px);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.vuetify-collection-header-primary {
+  inline-size: 100%;
+}
+.vuetify-collection-header-part {
+  flex: 0 1 auto;
+}
+.vuetify-collection-header-part > * {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.vuetify-collection-header-part[data-separate] {
+  margin-inline-start: auto;
+}
+.vuetify-collection-header-part[data-new-row] {
+  flex-basis: 100%;
+  inline-size: 100%;
+}
+.vuetify-collection-header-part[data-grow] {
+  flex: 1 1 0;
+}
+.vuetify-collection-header-part[data-grow] > * {
+  inline-size: 100%;
+}
+.vuetify-collection-header-part[data-stacked] {
+  flex-direction: column;
+  align-items: stretch;
+}
+.vuetify-collection-header-part[data-contents] {
+  display: contents;
+}
+.vuetify-collection-header-primary[data-align-editors],
+.vuetify-collection-header-primary[data-align-editors]
+  .vuetify-collection-header-part {
+  align-items: flex-start;
+}
+.vuetify-collection-header [data-ui-header-aligned] {
+  padding-block-start: var(--ui-header-editor-offset, 0px);
+}
+
+/* Sort rules and Add sort share native-sized tracks without hidden controls. */
+.vuetify-collection-sort-layout {
+  min-inline-size: 0;
+}
+.vuetify-collection-sort-layout[data-sort-part='panel'] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 8px;
+  align-items: center;
+  inline-size: 100%;
+}
+.vuetify-collection-sort-layout[data-sort-part='panel'][data-sort-multiple] {
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+}
+.vuetify-collection-sort-layout[data-sort-part='row'] {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: center;
+}
+.vuetify-collection-sort-layout[data-sort-part='movement'] {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.vuetify-collection-sort-layout[data-sort-part='remove'] {
+  display: flex;
+  align-items: center;
+}
+.vuetify-collection-sort-layout[data-sort-part='add'] {
+  grid-column: 1;
+  justify-self: start;
+}
+.vuetify-collection-sort-layout[data-sort-part='panel'][data-sort-multiple]
+  > .vuetify-collection-sort-layout[data-sort-part='add'] {
+  grid-column: 2;
+}
+
+/* Private collection criterion badges: passive summary and native removal. */
+.vuetify-query-badge {
+  max-inline-size: 100%;
+  height: auto;
+  min-block-size: var(--v-chip-height);
+}
+.vuetify-query-badge.v-chip--density-comfortable {
+  min-block-size: calc(var(--v-chip-height) - 4px);
+}
+.vuetify-query-badge.v-chip--density-compact {
+  min-block-size: calc(var(--v-chip-height) - 8px);
+}
+.vuetify-query-badge-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  min-inline-size: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.vuetify-query-badge-content [data-icon] {
+  flex-shrink: 0;
+}
+.vuetify-query-badge .v-chip__content {
+  white-space: normal;
+  min-inline-size: 0;
+}
+
+/* Button width is independent of its containing layout allocation. */
+.vuetify-button-host[data-ui-button-width='full'] {
+  inline-size: 100%;
+}
+.vuetify-button-host[data-ui-button-width='content'] {
+  inline-size: fit-content;
+}
+
+/* Native outlined geometry and currentColor state overlay, with neutral idle tokens. */
+.vuetify-button[data-ui-button-variant='neutral'] {
+  color: rgb(var(--v-theme-on-surface));
+  border-color: rgba(var(--v-theme-on-surface), var(--v-border-opacity));
+  background-color: rgb(var(--v-theme-surface));
+}
+.vuetify-button[data-ui-button-variant='neutral']:is(
+    :hover,
+    :focus-visible,
+    :active
+  ):not(:disabled) {
+  color: var(--vuetify-button-neutral-color);
+  border-color: currentColor;
+}
+
+/* A real flex line boundary lets actions join sorting without CSS reordering. */
+.vuetify-collection-header-part[data-line-break] {
+  flex: 0 0 100%;
+  block-size: 0;
+  min-block-size: 0;
+  margin-block: calc(var(--collection-header-gap) / -2);
+  padding: 0;
+}
+.vuetify-collection-header-part[data-header-part='actions'] {
+  align-self: flex-start;
+}
+
+/* Sort badge gestures keep native badge dimensions and independent removal. */
+.vuetify-query-badge {
+  position: relative;
+}
+.vuetify-query-badge-content[data-ui-sort-reorder] {
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+}
+.vuetify-query-badge-content[data-ui-sort-reorder]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.vuetify-query-badge[data-ui-sort-dragging] {
+  opacity: 0.6;
+}
+.vuetify-query-badge[data-ui-sort-dragging] [data-ui-sort-reorder] {
+  cursor: grabbing;
+}
+/* The sort composition's allocation paints insertion outside the clipped chip. */
+[data-ui-collection-sort-badges]
+  > .vuetify-layout-item:has(> .vuetify-query-badge[data-ui-sort-badge]) {
+  position: relative;
+}
+[data-ui-collection-sort-badges]
+  > .vuetify-layout-item:has(> .vuetify-query-badge[data-ui-sort-drop])::after {
+  content: '';
+  position: absolute;
+  inset-block: 2px;
+  inline-size: 3px;
+  border-radius: 2px;
+  background: rgb(var(--v-theme-primary));
+  pointer-events: none;
+}
+[data-ui-collection-sort-badges]
+  > .vuetify-layout-item:has(
+    > .vuetify-query-badge[data-ui-sort-drop='before']
+  )::after {
+  inset-inline-start: -5px;
+}
+[data-ui-collection-sort-badges]
+  > .vuetify-layout-item:has(
+    > .vuetify-query-badge[data-ui-sort-drop='after']
+  )::after {
+  inset-inline-end: -5px;
+}
+.vuetify-query-badge-announcement {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Reorder focus represents the complete criterion; removal keeps its own focus. */
+@supports selector(:has(*)) {
+  .vuetify-query-badge:has(
+    .vuetify-query-badge-content[data-ui-sort-reorder]:focus-visible
+  ) {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  .vuetify-query-badge
+    .vuetify-query-badge-content[data-ui-sort-reorder]:focus-visible {
+    outline: none;
+  }
+}
+
+/* Floating launcher and drawer allocation integration. */
+.vuetify-floating {
+  --ui-floating-clearance: 12;
+  width: max-content;
+  max-width: calc(100dvw - 24px);
+  max-height: calc(100dvh - 24px);
+}
+/* A standalone icon action must remain visible over arbitrary page content.
+   Keep native button interaction/focus; the immediate host supplies its surface. */
+.vuetify-floating
+  > .vuetify-button-host:has(> [data-ui-button-variant='icon']) {
+  background: rgb(var(--v-theme-surface));
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+  border-radius: 50%;
+  box-shadow: 0 3px 10px
+    rgba(var(--v-shadow-color), var(--v-shadow-key-opacity, 0.3));
+}
+.vuetify-floating > .vuetify-button-host > [data-ui-button-variant='icon'] {
+  min-inline-size: 3rem;
+  min-block-size: 3rem;
+  font-size: 1.5rem;
+  border-radius: inherit;
+}
+.vuetify-floating[data-draggable] {
+  touch-action: none;
+}
+.vuetify-floating-move {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: 100%;
+  max-width: calc(100dvw - 24px);
+  padding: 0.5rem;
+  background: rgb(var(--v-theme-surface));
+  color: rgb(var(--v-theme-on-surface));
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+.vuetify-floating-move label {
+  display: flex;
+  flex-direction: column;
+}
+.vuetify-floating-move input {
+  touch-action: auto;
+}
+.vuetify-overlay[data-ui-overlay='drawer'][data-docked] {
+  position: relative !important;
+  inset: auto !important;
+  margin: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  height: 100%;
+  display: flex;
+  visibility: visible;
+  flex-direction: column;
+}
+[data-ui-overlay='drawer'][data-docked][hidden] {
+  display: none !important;
+}
+.vuetify-drawer-resize {
+  position: absolute;
+  touch-action: none;
+  background: transparent;
+  outline-offset: -2px;
+}
+[data-edge='end'] > .vuetify-drawer-resize {
+  inset-inline-start: 0;
+  inset-block: 0;
+  width: 8px;
+  cursor: ew-resize;
+}
+[data-edge='start'] > .vuetify-drawer-resize {
+  inset-inline-end: 0;
+  inset-block: 0;
+  width: 8px;
+  cursor: ew-resize;
+}
+[data-edge='top'] > .vuetify-drawer-resize {
+  inset-block-end: 0;
+  inset-inline: 0;
+  height: 8px;
+  cursor: ns-resize;
+}
+[data-edge='bottom'] > .vuetify-drawer-resize {
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 8px;
+  cursor: ns-resize;
+}
+.vuetify-drawer-resize:focus-visible {
+  outline: 2px solid currentColor;
+}
+
+/* A retained overlay can stay below an already-live native child popup. */
+.vuetify-overlay[data-ui-overlay='drawer'][data-css-panel] {
+  display: flex;
+  visibility: visible;
+  flex-direction: column;
+}
+[data-ui-overlay='drawer'][data-css-panel][hidden] {
+  display: none !important;
+}
+
+[data-ui-drawer-layout][data-ui-drawer-motion] {
+  transition:
+    grid-template-columns 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    grid-template-rows 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-ui-drawer-layout][data-ui-drawer-motion] {
+    transition: none;
+  }
+}
+
+/* Drawer presentation owns the shared-edge line and depth. The docking
+   frame separates this paint from clipped motion; layouts only allocate. */
+.vuetify-drawer-dock {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+.vuetify-drawer-dock-motion {
+  overflow: clip;
+  height: 100%;
+  min-height: 0;
+}
+/* Keep the full-size moving surface anchored at its attached outer edge.
+   Its main-facing edge then follows the animated allocation, including when
+   the track is narrower/shorter than the retained surface. */
+.vuetify-drawer-dock-motion {
+  display: flex;
+  flex-direction: column;
+}
+.vuetify-drawer-dock-motion > [data-ui-overlay='drawer'][data-docked] {
+  flex-shrink: 0;
+}
+.vuetify-drawer-dock[data-edge='start'] > .vuetify-drawer-dock-motion {
+  align-items: start;
+}
+.vuetify-drawer-dock[data-edge='end'] > .vuetify-drawer-dock-motion {
+  align-items: end;
+}
+.vuetify-drawer-dock[data-edge='bottom'] > .vuetify-drawer-dock-motion {
+  justify-content: end;
+}
+.vuetify-drawer-depth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  container-type: size;
+}
+.vuetify-drawer-dock > .vuetify-drawer-depth {
+  display: none;
+}
+.vuetify-drawer-dock:has([data-ui-overlay='drawer'][data-docked]:not([hidden]))
+  > .vuetify-drawer-depth {
+  display: block;
+}
+.vuetify-drawer-depth-shadow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100cqw;
+  height: 100cqh;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
+/* Orient the native downward shadow toward main, retaining its theme recipe. */
+.vuetify-drawer-depth[data-edge='top'] {
+  clip-path: inset(calc(100% - 1px) 0 -100vmax 0);
+}
+.vuetify-drawer-depth[data-edge='bottom'] {
+  clip-path: inset(-100vmax 0 calc(100% - 1px) 0);
+}
+.vuetify-drawer-depth[data-edge='bottom'] > span {
+  transform: translate(-50%, -50%) scaleY(-1);
+}
+.vuetify-drawer-depth:is([data-edge='start'], [data-edge='end']) > span {
+  width: 100cqh;
+  height: 100cqw;
+}
+.vuetify-drawer-depth[data-edge='start'],
+.vuetify-drawer-depth[data-edge='end']:dir(rtl) {
+  clip-path: inset(0 -100vmax 0 calc(100% - 1px));
+}
+.vuetify-drawer-depth[data-edge='start'] > span,
+.vuetify-drawer-depth[data-edge='end']:dir(rtl) > span {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+.vuetify-drawer-depth[data-edge='end'],
+.vuetify-drawer-depth[data-edge='start']:dir(rtl) {
+  clip-path: inset(0 calc(100% - 1px) 0 -100vmax);
+}
+.vuetify-drawer-depth[data-edge='end'] > span,
+.vuetify-drawer-depth[data-edge='start']:dir(rtl) > span {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+@media (forced-colors: active) {
+  .vuetify-drawer-depth-shadow {
+    border-color: CanvasText;
+  }
+}
+
+/* Edge reconfiguration replaces track topology; it is not a slide between edges. */
+[data-ui-drawer-layout][data-ui-drawer-reconfigure],
+[data-ui-drawer-reconfigure]
+  > .vuetify-drawer-dock
+  > .vuetify-drawer-dock-motion
+  > .vuetify-overlay[data-docked] {
+  transition: none !important;
+}
+[data-ui-drawer-reconfigure]
+  > .vuetify-drawer-dock
+  > .vuetify-drawer-dock-motion
+  > .vuetify-overlay[data-docked] {
+  transform: none !important;
+}
+
+.vuetify-collection-data-summary {
+  flex: none;
+  min-inline-size: 0;
+  padding-block-start: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.vuetify-collection-summary-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+.vuetify-collection-summary-content > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.75rem;
+  min-inline-size: 0;
+}
+.vuetify-collection-summary-content dt {
+  font-size: 0.875em;
+  font-weight: 400;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+}
+.vuetify-collection-summary-content dd {
+  min-inline-size: 0;
+  margin: 0;
+  text-align: end;
+  font-size: 1.125em;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.vuetify-table [data-collection-summary-label] {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* A full-height form passes its bounded offer to one authored layout. */
+.vuetify-form[data-form-full] {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  min-block-size: 0;
+  block-size: 100%;
+  flex: 1 1 auto;
+}
+
+.vuetify-modal-scroll[data-content-scroll],
+.vuetify-modal-body[data-content-scroll] {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+}
+.vuetify-modal-body[data-content-scroll] {
+  flex: 1 1 auto;
+}
+
+/* Supporting actions remain outside the table's row scrollport. */
+.vuetify-collection-frame[data-collection-full] > .vuetify-table-footer {
+  flex: none;
+}
+
+/* Creation is a decorative row, not a mounted record/editor or loading state. */
+.vuetify-table-add-track {
+  background: rgb(var(--v-theme-surface));
+  color: rgb(var(--v-theme-on-surface));
+}
+.vuetify-table .vuetify-table-add-track > td {
+  padding: 0;
+  background: rgb(var(--v-theme-surface));
+}
+.vuetify-table-add-preview {
+  display: grid;
+  position: relative;
+  inline-size: 100%;
+  min-inline-size: 0;
+  box-sizing: border-box;
+}
+.vuetify-table-add-cell {
+  grid-row: 1;
+  min-inline-size: 0;
+  padding: 0.5rem 16px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.vuetify-table-add-cell > span {
+  display: block;
+  block-size: 2rem;
+  background: color-mix(
+    in srgb,
+    rgb(var(--v-theme-on-surface)) 7%,
+    rgb(var(--v-theme-surface))
+  );
+}
+.vuetify-table-add-action {
+  position: sticky;
+  inset-inline-start: 0;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-inline-size: 100%;
+  padding-block: 0.5rem;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.vuetify-table-add-action > * {
+  pointer-events: auto;
+}
+
+/* Yield header pinning before sticky regions can obstruct row controls. */
+.vuetify-collection[data-full][data-add-row-compact] .vuetify-table thead {
+  position: static;
+}
+
+.vuetify-progress-bar {
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vuetify-progress-bar .v-progress-linear__indeterminate {
+    animation: none;
+  }
+  .vuetify-progress-bar .v-progress-linear__determinate {
+    transition: none;
+  }
+  .vuetify-progress-bar .v-progress-linear__indeterminate.long,
+  .vuetify-progress-bar .v-progress-linear__indeterminate.short {
+    animation: none;
+  }
+  .vuetify-progress-bar .v-progress-linear__indeterminate.long {
+    inset-inline-start: 32.5%;
+    inset-inline-end: auto;
+    inline-size: 35%;
+  }
+  .vuetify-progress-bar .v-progress-linear__indeterminate.short {
+    display: none;
+  }
+}

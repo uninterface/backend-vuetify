@@ -1,0 +1,22 @@
+{
+  "name": "uninterface-vuetify-package-consumer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "vue-tsc --noEmit && vite build",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@uninterface/backend": "file:./backend-vuetify.tgz",
+    "vue": "3.5.43"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/node": "24.7.2",
+    "@uninterface/testing": "0.0.2",
+    "@vitejs/plugin-vue": "6.0.10",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vue-tsc": "3.1.1"
+  }
+}
