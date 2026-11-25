@@ -9,13 +9,13 @@ Use Vue compatible with core's `^3.5.43` peer dependency, Vue-aware TypeScript c
 ## Select the backend
 
 The release package ships compiled ES modules and TypeScript declarations.
-Install a compatible version of `@uninterface/backend-vuetify` under the alias
-`@uninterface/backend`. In the command below, replace `VERSION` with the
-backend version you want to install.
+Install `@uninterface/backend-vuetify` under the alias `@uninterface/backend`.
 
 ```sh
-npm install @uninterface/uninterface@0.0.3 @uninterface/backend@npm:@uninterface/backend-vuetify@VERSION
+npm install @uninterface/uninterface @uninterface/backend@npm:@uninterface/backend-vuetify@4.2.0-alpha1
 ```
+
+Choose a Core version that satisfies the selected backend release's peer dependency.
 
 Use TypeScript's `Bundler` module resolution to resolve the package's type
 exports. See [package build](package-build.md) for a source checkout.
@@ -130,4 +130,4 @@ Import one selected font entry before the stable `@uninterface/backend/style.css
 
 ### Common icon assets
 
-The common catalogue supplies 58 semantic names with independent override keys. The November 2026 additions use Material Design Icons via `@iconify-json/mdi` 1.2.3. Assets are local, with static component imports; no runtime icon service is introduced. Setup includes this bounded catalogue, which grows from 26 to 58 names; individual name-based tree shaking is not promised. Existing native internal glyphs remain private to the backend. See `@uninterface/uninterface` documentation at `docs/api/constants/uiIconNames.md` and `docs/guides/localization-and-icons.md`. See local [asset sources and mappings](icon-licenses/SOURCES.md).
+The common catalogue supplies 58 semantic names with independent override keys. The artwork includes Material Design Icons from `@iconify-json/mdi` 1.2.3. Setup imports the catalogue as local Vue components. Applications should budget for the whole catalogue in the bundle. Native internal glyphs are separate from the override catalogue. For semantic names and overrides, see `docs/api/constants/uiIconNames.md` and `docs/guides/localization-and-icons.md` in the Core package. See [asset sources and mappings](icon-licenses/SOURCES.md).
