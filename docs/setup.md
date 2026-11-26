@@ -4,7 +4,7 @@ This guide owns the application integration requirements for `@uninterface/backe
 
 ## Requirements
 
-Use Vue compatible with core's `^3.5.43` peer dependency, Vue-aware TypeScript checking, and Vite with `@vitejs/plugin-vue`. Keep one runtime copy of Vue and core.
+Use Node.js 24 or 26, Vue compatible with core's `^3.5.18` peer dependency, Vue-aware TypeScript checking, and Vite with `@vitejs/plugin-vue`. Keep one runtime copy of Vue and core.
 
 ## Select the backend
 

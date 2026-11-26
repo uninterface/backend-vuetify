@@ -5,6 +5,9 @@
   "license": "MIT",
   "type": "module",
   "description": "Vuetify presentation backend for Uninterface.",
+  "engines": {
+    "node": "^24.0.0 || ^26.0.0"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./style.css": "./src/style.css",
@@ -35,7 +38,7 @@
     "@vitejs/plugin-vue": "6.0.10",
     "jsdom": "27.4.0",
     "typescript": "5.9.3",
-    "vite": "7.3.7",
+    "vite": "7.3.8",
     "vue": "3.5.43",
     "vue-tsc": "3.1.1"
   },
@@ -136,7 +139,7 @@
   "peerDependencies": {
     "@uninterface/testing": "~0.0.2",
     "@uninterface/uninterface": "~0.0.3",
-    "vue": "^3.5.43"
+    "vue": "^3.5.18"
   },
   "peerDependenciesMeta": {
     "@uninterface/testing": {
