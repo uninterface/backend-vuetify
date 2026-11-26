@@ -31,9 +31,9 @@ Supports `collapsible.color.v1`. An explicit semantic color maps to VExpansionPa
 
 ## Verification and limits
 
-Shared DOM integration covers selection codecs/retention/clear/source states, notice urgency, passive badge semantics, definition-list associations, manual tab movement, lazy retained content and collapsible ownership. Those tests do not establish browser geometry, actual inert focus exclusion, visual focus quality, assistive-technology announcements or touch behavior. Preserve native palette policy, including the separately documented contrast limits of toolkit defaults. See the core component references and feedback/panels guides for consumer obligations.
+Verify selection codecs, retained values, clearing and source states, notice urgency, passive badge semantics, definition-list associations, manual tab activation and lazy content retention. In a browser, check geometry, focus containment, visible focus and touch behavior. Check announcements with assistive technology. Use the core component references for shared behavior and the installed theme’s guidance for contrast.
 
-Native composition checks are backend-owned; shared tests verify ownership, denied requests, summary naming, local disabled coordination, lazy retention and disposal. Native-reference fixtures provide side-by-side collapsible comparisons for toolkit backends. These checks distinguish rendered/source evidence from actual browser appearance; browser comparison remains required.
+For collapsible sections, exercise denied requests, accessible summary names, local disabled state, lazy retention and disposal. See [native testing](testing.md#run-the-backends-native-tests) for the source-checkout runner.
 
 ## Scrolling content and focus clearance
 
@@ -45,7 +45,7 @@ Header-to-body separation is placed at the start of the body scroll area instead
 
 UiNotice uses VAlert with its native severity icons and close button. A controlled modelValue remains true; update:modelValue requests business-owned dismissal, so declined requests do not hide content. Core's resolved announcement policy overrides the native alert role. Recovery actions occupy a wrapping row in the content column rather than the max-content append column, keeping multiple actions usable in narrow hosts.
 
-Dismissal is opt-in through dismissible. The close control requests dismissal; business code decides visibility and focus handoff. Recovery actions retain source and tab order with backend-owned spacing and wrapping below the message. No automatic dismissal, timer or Escape handling is installed. Rich custom actions own their internal layout. Shared DOM checks cover denied/repeated/accepted dismissal, live language changes, content retention and announcement semantics; browser checks cover keyboard activation, demo focus return and narrow LTR/RTL geometry. DOM success does not establish visual or assistive-technology acceptance.
+Dismissal is opt-in through dismissible. The close control requests dismissal; business code decides visibility and focus handoff. Recovery actions retain source and tab order with backend-owned spacing and wrapping below the message. No automatic dismissal, timer or Escape handling is installed. Rich custom actions own their internal layout. Exercise denied, repeated and accepted dismissal, then change the language and verify content retention. In a browser, dismiss with the keyboard and check that the application restores focus to the intended target. Verify narrow LTR and RTL layouts and check announcements with assistive technology.
 
 ## Notice presentation
 

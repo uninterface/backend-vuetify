@@ -46,7 +46,7 @@ A sole UiInputFrame uses native VInput density/layout and owns the field's nativ
 
 ### Concise upload states
 
-The region shows its chooser/artwork only in the ready state. Working and retained states display file/progress or file/preview with available actions. Recovery uses one short error and a row of actions. Progress labels remain accessible without a duplicate visible caption; preview displays the filename once. Embedded previews use a compact file summary. Ordinary demo uploads succeed; deliberate failure is available in the separate Upload failure simulation and test fixtures.
+The region shows its chooser/artwork only in the ready state. Working and retained states display file/progress or file/preview with available actions. Recovery uses one short error and a row of actions. Progress labels remain accessible without a duplicate visible caption; preview displays the filename once. Embedded previews use a compact file summary.
 
 This backend's compact/regular/large allocations are currently 8/10/16rem. The native upload artwork uses a 3rem icon (2rem for compact/fill), with one backend-owned gap before the chooser. Native field padding reserves space for the raised label within the allocation. Retained preview content uses a bounded grid cell, avoiding inline-image baseline overflow. There is no shared minimum. The allocation remains stable across states; the host must respect the backend minimum size; content never introduces scrolling. These are adapter defaults, not business-authored dimensions or browser geometry acceptance.
 
@@ -84,7 +84,7 @@ UiUploadProgress presents both active transfer progress/Cancel and transfer fail
 
 UiUploadRegion composes the same progress view for transfer recovery, without duplicating the filename, error or Retry. Acquisition rejection and delivery failure remain region-owned. Omitting the progress indicator does not omit essential transfer feedback or selected Retry; cancellation is not an error, but an owner may retain a Retry action. Recovery layout responds to recovery participation, including cancellation without an error message. Keyboard context is preserved across standalone Retry/Cancel changes; region focus coordination includes the chooser. DOM checks cover wiring and lifetime; browser fitting and assistive-technology checks remain separate.
 
-The Files demo's Supporting functions section contains Previews beside the independent Upload progress and Upload failure cards; the two top cards align, and no extra Upload simulation heading is rendered. Both use UiUploadProgress; the failure case has no chooser, region frame or playback controls. Each retry deliberately fails again for presentation review.
+To verify standalone recovery, render UiUploadProgress with a named file and a failing transfer. Check that the message and Cancel and Retry remain visible at narrow widths. Repeat the failure on Retry and verify focus stays in the recovery context. Exercise the same failure inside UiUploadRegion to check that the filename and actions appear once.
 
 ### Native focus ownership
 
