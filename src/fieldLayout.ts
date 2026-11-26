@@ -14,6 +14,7 @@ export const fieldLayoutKey: InjectionKey<
   | {
       binding: ComputedRef<UiFieldViewBinding>
       frameLabel: ComputedRef<boolean>
+      deferredIssue: ComputedRef<string | null>
       registerControl(
         floating: boolean,
         frame?: boolean,
@@ -69,7 +70,9 @@ export function useFieldPresentation(
         ? undefined
         : binding.value?.help,
     errorMessages:
-      !registered.value || (policy && needsCustomFeedback(policy.value))
+      !registered.value ||
+      field?.deferredIssue.value ||
+      (policy && needsCustomFeedback(policy.value))
         ? undefined
         : binding.value
           ? ((policy ? policy.value.issue : binding.value.issue) ?? undefined)
@@ -83,7 +86,7 @@ export function useFieldPresentation(
   }))
   const messageId = computed(() =>
     binding.value
-      ? `${binding.value.id}-${(policy ? policy.value.issue : binding.value.issue) ? 'issue' : 'help'}`
+      ? `${binding.value.id}-${!field?.deferredIssue.value && (policy ? policy.value.issue : binding.value.issue) ? 'issue' : 'help'}`
       : undefined,
   )
   const requiredMarker = computed(() =>

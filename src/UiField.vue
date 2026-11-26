@@ -14,6 +14,7 @@
   useUiCollectionHeaderField(element, '.v-field')
   const props = defineProps<{ binding: UiFieldViewBinding }>()
   const policy = useUiFieldStrategies(() => props.binding, {
+    ...{ feedbackRoot: element },
     help: 'replace-help',
     checkableModes: ['flushed'],
     defaultLabels: () =>
@@ -31,6 +32,13 @@
         floatingControls.value === 1 &&
         controls.value === 1),
   })
+  const deferredIssue = computed(() =>
+    'inlineFeedbackDeferred' in policy.value &&
+    policy.value.inlineFeedbackDeferred === true &&
+    policy.value.failure !== 'show-tooltip'
+      ? policy.value.issue
+      : null,
+  )
   const customFeedback = computed(() => needsCustomFeedback(policy.value))
   const controls = ref(0)
   const checkableControls = ref(0)
@@ -51,6 +59,7 @@
   provide(fieldLayoutKey, {
     binding: computed(() => props.binding),
     frameLabel,
+    deferredIssue,
     registerControl(floating, frame = false, checkable = false) {
       controls.value++
       if (checkable) checkableControls.value++
@@ -131,7 +140,8 @@
     <div
       v-if="
         (binding.group || frameControls > 0 || !controls || customFeedback) &&
-        (policy.showHelp || (policy.issue && policy.failure !== 'show-tooltip'))
+        (policy.showHelp ||
+          (policy.issue && !deferredIssue && policy.failure !== 'show-tooltip'))
       "
       class="vuetify-field-feedback text-caption mt-1"
     >
@@ -142,12 +152,21 @@
         {{ binding.help }}
       </div>
       <div
-        v-if="policy.issue && policy.failure !== 'show-tooltip'"
+        v-if="
+          policy.issue && !deferredIssue && policy.failure !== 'show-tooltip'
+        "
         :id="`${binding.id}-issue`"
         class="text-error"
       >
         {{ policy.issue }}
       </div>
     </div>
+    <span
+      v-if="deferredIssue"
+      :id="`${binding.id}-issue`"
+      class="vuetify-sr-only"
+    >
+      {{ deferredIssue }}
+    </span>
   </div>
 </template>
