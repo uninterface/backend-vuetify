@@ -1,6 +1,6 @@
 {
   "name": "@uninterface/backend-vuetify",
-  "version": "4.2.0-alpha1",
+  "version": "4.2.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -32,9 +32,9 @@
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "@uninterface/fonts": "0.0.2",
-    "@uninterface/testing": "0.0.2",
-    "@uninterface/uninterface": "0.0.3",
+    "@uninterface/fonts": "0.1.0",
+    "@uninterface/testing": "0.1.0",
+    "@uninterface/uninterface": "0.1.0",
     "@vitejs/plugin-vue": "6.0.10",
     "jsdom": "27.4.0",
     "typescript": "5.9.3",
@@ -137,8 +137,8 @@
     "test:browser": "playwright test --config testing/playwright.config.ts"
   },
   "peerDependencies": {
-    "@uninterface/testing": "~0.0.2",
-    "@uninterface/uninterface": "~0.0.3",
+    "@uninterface/testing": "^0.1.0",
+    "@uninterface/uninterface": "^0.1.0",
     "vue": "^3.5.18"
   },
   "peerDependenciesMeta": {
