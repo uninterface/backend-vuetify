@@ -4,7 +4,17 @@ VBtn for horizontal roots, VList/VListItem for vertical/flyout entries, VListGro
 
 All four UiNavMenu presentations are implemented: horizontal, vertical-tree, vertical-popup, and icon-popup. The shared controller owns current/path/requests, while each view owns expansion. Current changes reveal persistent ancestry without opening closed flyouts. Native markup, focus mechanics and styling remain backend-owned. Group and descendant slots preserve leading icons; check selection and shortcut hints are absent from navigation projections.
 
+With `width` omitted, the `horizontal` root fills the parent's offered width.
+The `vertical-tree`, `vertical-popup`, and `icon-popup` roots size to their
+content up to that width.
+Use `width="full"` or `width="content"` to select the root width explicitly
+(`navigation.menu.width.v1`). Floating submenus size independently.
+
 Icon-popup uses labelled flyouts and accessible root names; missing root destination icons receive neutral menu-item artwork without changing modes. Navigation labels are required. Responsive selection is application-owned; UiNavbar does not automatically collapse.
+
+The labelled vertical root removes VList's outer inline padding so its row
+surfaces align with adjacent controls in the same host. Vuetify's row padding
+and nested indentation still apply.
 
 The existing application-owned theme/configuration and stylesheet ordering continue to apply; there are no new business-side spacing, caret or native-widget props. See this backend's customization guide for toolkit settings actually consumed by the adapter.
 

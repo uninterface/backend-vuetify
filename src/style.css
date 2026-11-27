@@ -986,6 +986,20 @@ body,
 .vuetify-navigation-surface[data-navigation-mode='horizontal'] {
   inline-size: 100%;
 }
+.vuetify-navigation-surface[data-navigation-width='content'] {
+  inline-size: max-content;
+}
+.vuetify-navigation-surface[data-navigation-width='full'] {
+  inline-size: 100%;
+}
+/* The host supplies the side inset. Keep Vuetify's nav row styling. */
+.vuetify-navigation-surface:is(
+    [data-navigation-mode='vertical-tree'],
+    [data-navigation-mode='vertical-popup']
+  )
+  > .v-list--nav {
+  padding-inline: 0;
+}
 .vuetify-navigation-surface[data-navigation-boundary='inline-end'] {
   border-inline-end: 1px solid
     rgba(var(--v-border-color), var(--v-border-opacity));
