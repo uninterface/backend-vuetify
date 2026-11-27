@@ -58,6 +58,13 @@ The navbar uses a naturally wrapping VSheet; VAppBar/VToolbar impose height/layo
 
 Vuetify owns floating labels, feedback spacing, button variants and control appearance. Its global stylesheet establishes native-content defaults. UiContent adds insets, not a prose theme or a global heading reset. Adapter reduced-motion patches affect its own loading buttons only.
 
+### Layout separators
+
+`UiLayout.vue` supplies `layout.separator.v1` for `UiSeparator`. It paints a
+solid 1px line in the existing peer gap using Vuetify's `--v-border-color` and
+`--v-border-opacity`. A short vertical line appears between horizontal peers
+on the same row. A horizontal line spans the layout between vertical peers.
+
 ## Document baseline
 
 The imported Vuetify stylesheet establishes document typography and reset defaults on the document, including its native font stack. UiApp inherits that baseline while retaining the toolkit theme surface; teleported controls receive the same document font.

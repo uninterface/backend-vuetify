@@ -15,6 +15,7 @@
     flowSpacerItemStyle,
     flowSpacerLayoutStyle,
     startEndLayoutItemStyle,
+    UiLayoutSeparators,
     useUiLayoutResizeView,
   } from '@uninterface/uninterface/backend'
   import { uiFocusPresentation } from './focus'
@@ -210,6 +211,14 @@
         aria-hidden="true"
       />
     </template>
+    <UiLayoutSeparators
+      v-if="binding.separators?.length"
+      :root="resizeRoot"
+      :binding="binding"
+      :item-id="itemId"
+      color="rgba(var(--v-border-color), var(--v-border-opacity))"
+      thickness="var(--vuetify-layout-separator-size)"
+    />
     <div
       v-if="binding.spacers?.length && binding.items.length > 1"
       ref="gapProbe"
