@@ -4,8 +4,19 @@
   import { useUiZView } from '@uninterface/uninterface/backend'
   useUiZView()
 
-  import { computed, type CSSProperties } from 'vue'
-  import { useUiLayoutResizeView } from '@uninterface/uninterface/backend'
+  import {
+    computed,
+    shallowRef,
+    useTemplateRef,
+    watchPostEffect,
+    type CSSProperties,
+  } from 'vue'
+  import {
+    flowSpacerItemStyle,
+    flowSpacerLayoutStyle,
+    startEndLayoutItemStyle,
+    useUiLayoutResizeView,
+  } from '@uninterface/uninterface/backend'
   import { uiFocusPresentation } from './focus'
   import type { UiLayoutViewBinding } from '@uninterface/uninterface/backend'
   import { uiLayoutPresentation } from './layout'
@@ -16,6 +27,32 @@
         uiLayoutPresentation.peerSpacingLevels?.[props.binding.density]) ||
       uiLayoutPresentation.peerSpacing,
   )
+  const gapProbe = useTemplateRef('gapProbe')
+  const gap = shallowRef({ row: '0px', column: '0px' })
+  const spacerGap = computed(() =>
+    props.binding.direction === 'vertical' ? gap.value.row : gap.value.column,
+  )
+  watchPostEffect((onCleanup) => {
+    const probe = gapProbe.value
+    const win = probe?.ownerDocument.defaultView
+    if (!probe || !win) return
+
+    // Vuetify generates ga-* from its Sass spacing map. Observe the inherited
+    // gaps even when a theme change leaves the layout's own size untouched.
+    // https://github.com/vuetifyjs/vuetify/blob/v4.2.5/packages/vuetify/src/styles/settings/_utilities.scss
+    const measure = () => {
+      const { rowGap, columnGap } = win.getComputedStyle(probe)
+      gap.value = {
+        row: rowGap === 'normal' ? '0px' : rowGap,
+        column: columnGap === 'normal' ? '0px' : columnGap,
+      }
+    }
+    measure()
+    if (!win.ResizeObserver) return
+    const observer = new win.ResizeObserver(measure)
+    observer.observe(probe)
+    onCleanup(() => observer.disconnect())
+  })
   const { resizeRoot, itemId, boundaryAfter, onKeydown, onPointerdown } =
     useUiLayoutResizeView(() => props.binding)
   const framingAfter = (key: string) =>
@@ -87,6 +124,7 @@
       height: b.height === 'full' ? '100%' : 'auto',
       overflowX: scrolling ? 'auto' : 'visible',
       overflowY: scrolling ? 'auto' : 'visible',
+      ...flowSpacerLayoutStyle(b),
     }
   })
 </script>
@@ -121,12 +159,15 @@
         class="vuetify-layout-item"
         :data-layout-region="binding.framing ? key : undefined"
         :data-raised="binding.framing?.regions[key]?.raised || undefined"
+        :data-ui-flow-spacer="binding.spacers?.includes(key) || undefined"
+        :aria-hidden="binding.spacers?.includes(key) || undefined"
         :style="
           binding.framing
             ? {
                 position: 'relative',
               }
-            : undefined
+            : (startEndLayoutItemStyle(binding, key) ??
+              flowSpacerItemStyle(binding, key, spacerGap))
         "
       >
         <slot :name="key" />
@@ -169,5 +210,11 @@
         aria-hidden="true"
       />
     </template>
+    <div
+      v-if="binding.spacers?.length && binding.items.length > 1"
+      ref="gapProbe"
+      class="vuetify-layout-gap-probe"
+      aria-hidden="true"
+    />
   </div>
 </template>

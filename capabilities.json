@@ -18,6 +18,8 @@
     "layout.division.v1",
     "layout.reactive.v1",
     "layout.wrap.v1",
+    "layout.flow-spacer.v1",
+    "layout.start-end.v1",
     "layout.scroll.v1",
     "button.color.v1",
     "button.variant.v1",

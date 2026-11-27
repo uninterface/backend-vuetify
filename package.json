@@ -114,6 +114,7 @@
         "testing/component-conformance.spec.ts",
         "testing/stacking-popups.spec.ts",
         "testing/compact-checkboxes.spec.ts",
+        "testing/flow-spacer-gap.spec.ts",
         "testing/segmented-field.spec.ts",
         "testing/temporal-fields.spec.ts",
         "testing/paginator-footer.spec.ts",

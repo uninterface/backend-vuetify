@@ -64,9 +64,17 @@ uiCardPresentation configures all five level treatments independently of uiHiera
 
 ## Layout density
 
-UiLayout, UiFlowLayout and UiGridLayout support `uiLayoutDensity(-1 | 0 | 1)` for peer separation. -1 maps to `ga-2` plus the local `vuetify-compact-layout` accommodation; 0 preserves `ga-4`; 1 maps to `ga-6`. These are backend fulfillment values, not business-author inputs. Zero/no answer uses the original default; supported conflicting answers retain that default. Both grid axes use the selected spacing. Native tokens/classes remain application-theme controlled where used.
+UiLayout, UiFlowLayout, UiGridLayout and UiStartEndLayout support `uiLayoutDensity(-1 | 0 | 1)` for peer separation. -1 maps to `ga-2` plus the local `vuetify-compact-layout` accommodation; 0 preserves `ga-4`; 1 maps to `ga-6`. These are backend fulfillment values, not business-author inputs. Zero/no answer uses the original default; supported conflicting answers retain that default. Both grid axes use the selected spacing. Native tokens/classes remain application-theme controlled where used.
 
 Density does not scale checkbox surfaces or hit targets, change typography or content padding, or separate UiRegionLayout allocations. Nested layouts honor logical targets, depth, stopAt and query barriers without inherited CSS density. See `@uninterface/uninterface` documentation at `docs/guides/layout-density.md`. Shared DOM tests verify all levels, restoration, scoped barriers and retained input state/focus; browser geometry is a separate acceptance check.
+
+UiSpacer in UiFlowLayout uses the effective Vuetify gap in the flow direction
+(`layout.flow-spacer.v1`). A browser observer keeps its compensation current
+when toolkit spacing changes. Input frames use `input.frame.sizing.v1`.
+
+UiStartEndLayout uses the selected gap both between groups on the same row
+and between rows when they wrap. With `layout.start-end.v1`, each group
+keeps its logical edge on the row it occupies.
 
 ### Compact standalone checkbox rows
 
@@ -81,7 +89,6 @@ The backend DOM regression matches the actual built CSS selector to rendered che
 UiCheckbox and UiSwitch use flushed presentation. The shared strategy vocabulary still accepts adapt/flushed/control-aligned/separated requests; Vuetify supports only flushed and treats the two column modes as unsupported. Adapt first resolves effective ordinary label placement, including reactive native defaults, general values and unsupported requests. It then selects control-aligned for effective beside placement or flushed otherwise. Unsupported control-aligned/separated requests fall back through adapt to flushed before rendering. All standalone labels and group titles remain visible under hidden. Radio/checkbox option labels remain adjacent and group titles remain above their options. Standalone checkbox/switch labels remain adjacent. Standalone descriptions retain label-text alignment; group descriptions remain associated with their options. Size, markers and values retain their own behavior.
 
 This integrates shared checkable requests with Vuetify's flushed-only support. Verify unsupported column requests preserve flushed geometry, all label modes and restoration, required markers, value/focus retention and label activation; browser checks must also cover narrow/wide widths, wrapping and RTL. DOM integration checks alone do not establish visual geometry.
-
 
 ## Button width
 
